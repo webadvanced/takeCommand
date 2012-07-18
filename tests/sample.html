@@ -1,0 +1,32 @@
+<html>
+<head>
+    <title>Sample</title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+    <script type="text/javascript" src="../src/takeCommand.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            var sendRequestOne = commands.register('sendRequestOne', {url: 'runner.html'});
+            console.log(sendRequestOne);
+            sendRequestOne.success(function(data) {
+                console.log('I got called - request 1 : success');
+            }).always(function() {
+                console.log('I got called - request 1 : always');
+            }).error(function(){
+                console.log('I got called - request 1 : error');
+            });
+            var sendRequestTwo = commands.register('sendRequestTwo', {url: 'runner.html'});
+            sendRequestTwo.success(function(data) {
+                console.log('I got called - request 2 : done');
+            });            
+
+            $('#l1').click(commands.execute.sendRequestOne);
+            $('#l2').click(commands.execute.sendRequestTwo);
+        });
+    </script>
+</head>
+<body>
+    <a id="l1" href="#">Send Request 1</a>
+    <br />
+    <a id="l2" href="#">Send Request 2</a>
+</body>
+</html>
