@@ -1,5 +1,6 @@
 #jQuery Ajax Wrapper#
 
+```javascript
 var addUserCommand = commands.register( 'addUserCommand', { url: '/users/add' } );
 
 addUserCommand.success( function() {
@@ -15,3 +16,4 @@ commands.execute.addUserCommand();
 
 //Use as a callback
 $('#addUserForm').submit(commands.execute.addUserCommand);
+```
