@@ -19,10 +19,12 @@ commands.updateUserCommand.success( function() {
 });
 
 //Manualy execute
-commands.addUserCommand.execute();
+addUserCommand.send( {data: 'here'} ); //or addUserCommand.execute( {data: 'here'} )
 
 //Use as a callback
-$('#addUserForm').submit(commands.execute.addUserCommand);
+$('#addUserForm').submit(addUserCommand.execute);
+
+//Bind from the object
 commands.updateUserCommand.bind('#formUpdate', 'submit', function() {
     return $( this ).serialize(); //return the data to be passed into the Ajax call
 });
