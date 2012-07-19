@@ -22,7 +22,7 @@ var commands = ( function( $ ) {
 
         return this;
     };
-    
+
     commands.register.fn = commands.register.prototype;
 
     commands.register.fn.setCallback = function( func, pointer ) {
@@ -53,7 +53,8 @@ var commands = ( function( $ ) {
     _isFunction = function( obj ) {
         return Object.prototype.toString.call( obj ) === "[object Function]";
     }
-
+    
+    commands.send = commands.execute;
     return commands;
 
 })( jQuery );
