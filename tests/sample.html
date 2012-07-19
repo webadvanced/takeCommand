@@ -5,9 +5,8 @@
     <script type="text/javascript" src="../src/takeCommand.js"></script>
     <script type="text/javascript">
         $(function() {
-            var sendRequestOne = commands.register('sendRequestOne', {url: 'runner.html'});
-            console.log(sendRequestOne);
-            sendRequestOne.success(function(data) {
+            var sendRequestOne = commands.register('sendRequestOne', {url: 'runner.html', dataType: 'HTML'});
+            sendRequestOne.success(function() {
                 console.log('I got called - request 1 : success');
             }).always(function() {
                 console.log('I got called - request 1 : always');
@@ -17,10 +16,14 @@
             var sendRequestTwo = commands.register('sendRequestTwo', {url: 'runner.html'});
             sendRequestTwo.success(function(data) {
                 console.log('I got called - request 2 : done');
-            });            
+            });        
 
-            $('#l1').click(commands.execute.sendRequestOne);
-            $('#l2').click(commands.execute.sendRequestTwo);
+            commands.sendRequestTwo.always(function() {
+                console.log('I got called - request 2 : always');
+            });
+
+            $('#l1').click(commands.sendRequestOne.send);
+            sendRequestTwo.bind('#l2', 'click');
         });
     </script>
 </head>
