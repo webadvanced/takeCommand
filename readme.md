@@ -1,10 +1,10 @@
-#jQuery Ajax Wrapper#
+#jQuery Ajax Commands#
 
 ```javascript
 
 var addUserCommand = commands.register( 'addUserCommand', { url: '/users/add' } );
 //or
-commands.register('updateUserCommand', { url: '/users/update '});
+commands.register(  'updateUserCommand', { url: '/users/update '} );
 
 addUserCommand.success( function() {
     alert( 'success!' );
