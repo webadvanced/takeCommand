@@ -20,9 +20,14 @@
 
             commands.sendRequestTwo.always(function() {
                 console.log('I got called - request 2 : always');
+            }); 
+
+            sendRequestOne.send();
+            sendRequestOne.clearCallback('always').always(function() {
+                console.log('the new sendRequestOne : always');
             });
 
-            $('#l1').click(commands.sendRequestOne.send);
+            $('#l1').click(sendRequestOne.send);
             sendRequestTwo.bind('#l2', 'click');
         });
     </script>

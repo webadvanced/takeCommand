@@ -1,4 +1,5 @@
 var commands = ( function( $ ) {
+    "use strict";
     if( !$ ) { 
         throw 'jQuery is required.';
     }
@@ -6,7 +7,7 @@ var commands = ( function( $ ) {
     var commands = { },
         _defaultOptions = { type: 'GET',  dataType: 'JSON' },
         _isFunction,
-        Commad,
+        Command,
         checkArg = {};
 
     checkArg.required = function( obj, message ) {
@@ -20,7 +21,9 @@ var commands = ( function( $ ) {
         this.key = key;
         this.options = options;
         this.send = this.execute = function( data ) {
-            if( data && !data.currentTarget ) self.options.data = data;
+            if( data && !data.currentTarget ) {
+                self.options.data = data;
+            }
             $.ajax( self.options ).success( self.success ).always( self.always ).error( self.error );
         };
     };
@@ -39,14 +42,19 @@ var commands = ( function( $ ) {
     Command.fn.bind = function( selector, events, func ) {
         var self = this,
             data;
-        data = ( _isFunction( func ) ? func() : data;
+        data = ( _isFunction( func ) ) ? func() : data;
         $( window ).on( events, selector, function( evt ) {
             evt.preventDefault();
             self.send( data );
             return this;
         });
     };
-        
+    
+    Command.fn.clearCallback = function( name ) {
+        delete this[name];
+        return this;
+    };
+
     Command.fn.success = function( func ) {
         if( func && _isFunction( func ) ) {
             this.success = $.proxy(func, this);
@@ -70,8 +78,8 @@ var commands = ( function( $ ) {
 
     _isFunction = function( obj ) {
         return Object.prototype.toString.call( obj ) === "[object Function]";
-    }
+    };
 
     return commands;
 
-})( jQuery );
+})( window.jQuery );
