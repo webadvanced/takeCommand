@@ -1,4 +1,4 @@
-var commands = ( function( $ ) {
+var commands = ( function( $, Object ) {
     "use strict";
     if( !$ ) { 
         throw 'jQuery is required.';
@@ -82,4 +82,4 @@ var commands = ( function( $ ) {
 
     return commands;
 
-})( window.jQuery );
+})( window.jQuery, Object );
