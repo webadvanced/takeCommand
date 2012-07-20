@@ -56,7 +56,7 @@
 
     Command.fn.success = function( func ) {
         if( func && _isFunction( func ) ) {
-            this.success = $.proxy(func, this);
+            this.success = func;
         }
         return this;
     };

@@ -1,5 +1,11 @@
+//factory function for command
+var buildCommand = function(key, options) {
+	key = key || 'mockCommand';
+	options = options || {url: '/mock/add'};
+	return commands.register(key, options)
+};
 
-describe('when using takeCommand', function() {
+describe('using takeCommand', function() {
 
 	describe('when registering a new command', function() {
 		it('should throw when not command is provided', function() {
@@ -31,11 +37,25 @@ describe('when using takeCommand', function() {
 		});
 	});
 
-});
+	describe('when binding success, error and always function to a command', function() {
+		var command = buildCommand(),
+			s = function() { },
+			e = function() { },
+			a = function() { };
+		it('should set s as the success function', function() {
+			command.success( s );
+			expect( command.success ).toEqual( s );
+		});
 
-//factory function for command
-var buildCommand = function(key, options) {
-	key = key || 'mockCommand';
-	options = options || {url: '/mock/add'};
-	return commands.register(key, options)
-};
+		it('should set e as the error function', function() {
+			command.error( e );
+			expect( command.error ).toEqual( e );
+		});
+
+		it('should set a as the always function', function() {
+			command.always( a );
+			expect( command.always ).toEqual( a );
+		});
+	});
+
+});
