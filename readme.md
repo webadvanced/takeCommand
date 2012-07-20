@@ -99,8 +99,6 @@ var user = (function( $ ) {
 
 $(function() {
 	signals.subscribe('userCreateCommand:success', user.addToList);
-	commands.bind('#userCreateForm', 'submit', function() {
-		return $(this).serialize();
-	});
+	$('#userCreateForm').submit(commands.userCreateComand.send);
 });
 ```
