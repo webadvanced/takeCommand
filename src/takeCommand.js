@@ -5,7 +5,7 @@
             useSignals: false,
             mock: {}
         },
-        _defaultOptions = { type: 'GET',  dataType: 'JSON' },
+        _defaultOptions = { type: 'GET',  dataType: 'JSON', mock: {} },
         _isFunction,
         _checkArg = {},
         Command;
@@ -23,19 +23,18 @@
         this.key = key;
         this.options = options;
         this.send = this.execute = function( data ) {
-            var options = self.options;
             if( data && !data.currentTarget ) {
                 options.data = data;
             }
             if( !_commands.testMode ) {
-                $.ajax( options ).success( self.success ).always( self.always ).error( self.error );    
+                $.ajax( self.options ).success( self.success ).always( self.always ).error( self.error );    
             } else {
-                if( options.mock && options.mock.success ) {
-                    self.success( options.mock.response );
+                if( self.options.mock.wasSuccess ) {
+                    self.success( self.options.mock.response );
                 } else {
-                    self.error( options.mock.response );
+                    self.error( self.options.mock.response );
                 }
-                self.always( options.mockResponse );
+                self.always( self.options.mockResponse );
             }
         };
     };

@@ -76,13 +76,25 @@ describe('using takeCommand', function() {
 		var command = buildCommand()
 		commands.testMode = true;
 		describe('when the call is successfull', function() {
-			command.options.mock = {
-				success: true
-			};
 			it('should call the success funtion', function() {
+				command.options.mock.wasSuccess = true;
 				spyOn(command, 'success');
 				command.send();
 				expect(command.success).toHaveBeenCalled();
+			});
+			it('should call the always funtion', function() {
+				command.options.mock.wasSuccess = true;
+				spyOn(command, 'always');
+				command.send();
+				expect(command.always).toHaveBeenCalled();	
+			});
+		});
+		describe('when the call is not successfull', function() {
+			it('should call the error funtion', function() {
+				command.options.mock.wasSuccess = false;
+				spyOn(command, 'error');
+				command.send();
+				expect(command.error).toHaveBeenCalled();
 			});
 			it('should call the always funtion', function() {
 				spyOn(command, 'always');
