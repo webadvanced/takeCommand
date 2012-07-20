@@ -1,4 +1,4 @@
-var commands = ( function( $, Object, window ) {
+( function( $, Object, window ) {
     "use strict";
     var _commands = {},
         _defaultOptions = { type: 'GET',  dataType: 'JSON' },
@@ -29,6 +29,7 @@ var commands = ( function( $, Object, window ) {
     _commands.register = function( key, options ) {
         _checkArg.required( key, 'Please provide a key to register' );
         _checkArg.required( options, 'You must provide an options object with a URL property' );
+        _checkArg.required( options.url, 'You must provide an options object with a URL property' );
         
         var command = new Command( key, $.extend( options, _defaultOptions ) );
         _commands[key] = command;
@@ -78,6 +79,6 @@ var commands = ( function( $, Object, window ) {
         return Object.prototype.toString.call( obj ) === "[object Function]";
     };
 
-    return _commands;
+    window.commands = _commands;
 
 })( window.jQuery, Object, window );
