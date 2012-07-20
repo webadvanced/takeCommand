@@ -1,20 +1,18 @@
 var commands = ( function( $, Object, window ) {
     "use strict";
-    if( !$ ) { 
-        throw 'jQuery is required.';
-    }
-
-    var commands = { },
+    var _commands = {},
         _defaultOptions = { type: 'GET',  dataType: 'JSON' },
         _isFunction,
         Command,
-        checkArg = {};
+        _checkArg = {};
 
-    checkArg.required = function( obj, message ) {
+    _checkArg.required = function( obj, message ) {
         if( !obj ) {
             throw message;
         }
     };
+    
+    _checkArg.required( $, 'jQuery is required' );
 
     Command = function( key, options ) {
         var self = this;
@@ -28,12 +26,12 @@ var commands = ( function( $, Object, window ) {
         };
     };
 
-    commands.register = function( key, options ) {
-        checkArg.required( key, 'Please provide a key to register' );
-        checkArg.required( options, 'You must provide an options object with a URL property' );
+    _commands.register = function( key, options ) {
+        _checkArg.required( key, 'Please provide a key to register' );
+        _checkArg.required( options, 'You must provide an options object with a URL property' );
         
         var command = new Command( key, $.extend( options, _defaultOptions ) );
-        commands[key] = command;
+        _commands[key] = command;
         return command;
     };
 
@@ -80,6 +78,6 @@ var commands = ( function( $, Object, window ) {
         return Object.prototype.toString.call( obj ) === "[object Function]";
     };
 
-    return commands;
+    return _commands;
 
 })( window.jQuery, Object, window );
