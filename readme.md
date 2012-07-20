@@ -62,3 +62,45 @@ when('Ajax call was successfull', function() {
 	
 });
 ```
+##Using takeCommand with signals##
+takeCommand can be used with signals to automatically enabling pubsub event binding and triggering. This requires signals.js (https://github.com/webadvanced/signals.js) but will keep apps more loosely coupled
+
+```javascript
+//tell takeCommand you want to use signals
+commands.useSignals = true;
+
+//setup your user functions
+var user = (function( $ ) {
+	var _user = {};
+	_user.addToList = function( user ) {
+		var $li = $('<li />', {
+			text: user.fullName + ' (' + user.age + ')')
+			id: user.id
+		});
+		$('#userList').append($li);
+	};
+	_user.remove = function( user ) {
+		$('#' + user.id).fadeOut('fast', function() {
+			$(this).remove();
+		});
+	};
+
+	return _user;
+})( jQuery, signals );
+
+//setup your commands
+(function( commands ) {
+	commands.register('userCreateCommand', { url: '/users/add' });
+	//success => signals.broadcast('userCreateCommand:success')
+	//error => signals.broadcast('userCreateCommand:error')
+	//always => signals.broadcast('userCreateCommand:always')
+})( commands );
+
+
+$(function() {
+	signals.subscribe('userCreateCommand:success', user.addToList);
+	commands.bind('#userCreateForm', 'submit', function() {
+		return $(this).serialize();
+	});
+});
+```

@@ -8,6 +8,7 @@
         _defaultOptions = { type: 'GET',  dataType: 'JSON', mock: {} },
         _isFunction,
         _checkArg = {},
+        _bindCommandToSignals,
         Command;
 
     _checkArg.required = function( obj, message ) {
@@ -46,6 +47,7 @@
         
         var command = new Command( key, $.extend( options, _defaultOptions ) );
         _commands[key] = command;
+        if( useSignals ) _bindCommandToSignals( key, command );
         return command;
     };
 
@@ -86,6 +88,13 @@
             this.error = func;
         }
         return this;
+    };
+
+    _bindCommandToSignals = function( key, command ) {
+        _checkArg.required( signals, 'signals is required, please add a reference to signals' );
+        command.success(signals.proxy(key + ':success'));
+        command.error(signals.proxy(key + ':error'));
+        command.always(signals.proxy(key + ':always'));
     };
 
     _isFunction = function( obj ) {
