@@ -58,4 +58,38 @@ describe('using takeCommand', function() {
 		});
 	});
 
+	describe('when using clearCallback', function() {
+		var command = buildCommand(),
+			s = function() { };
+		command.success(s);
+		command.clearCallback('success');
+		it('should unbind success function', function() {
+			expect(command.success).not.toEqual(s);
+		});
+
+		it('should reset to the prototype success function', function() {
+			expect(command.success).toEqual(commands.Command.prototype.success);
+		});
+	});
+
+	describe('when calling send/execute', function() {
+		var command = buildCommand()
+		commands.testMode = true;
+		describe('when the call is successfull', function() {
+			command.options.mock = {
+				success: true
+			};
+			it('should call the success funtion', function() {
+				spyOn(command, 'success');
+				command.send();
+				expect(command.success).toHaveBeenCalled();
+			});
+			it('should call the always funtion', function() {
+				spyOn(command, 'always');
+				command.send();
+				expect(command.always).toHaveBeenCalled();	
+			});
+		});
+	});
+
 });

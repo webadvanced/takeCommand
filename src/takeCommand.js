@@ -1,10 +1,14 @@
 ( function( $, Object, window ) {
     "use strict";
-    var _commands = {},
+    var _commands = {
+            testMode: false,
+            useSignals: false,
+            mock: {}
+        },
         _defaultOptions = { type: 'GET',  dataType: 'JSON' },
         _isFunction,
-        Command,
-        _checkArg = {};
+        _checkArg = {},
+        Command;
 
     _checkArg.required = function( obj, message ) {
         if( !obj ) {
@@ -19,10 +23,20 @@
         this.key = key;
         this.options = options;
         this.send = this.execute = function( data ) {
+            var options = self.options;
             if( data && !data.currentTarget ) {
-                self.options.data = data;
+                options.data = data;
             }
-            $.ajax( self.options ).success( self.success ).always( self.always ).error( self.error );
+            if( !_commands.testMode ) {
+                $.ajax( options ).success( self.success ).always( self.always ).error( self.error );    
+            } else {
+                if( options.mock && options.mock.success ) {
+                    self.success( options.mock.response );
+                } else {
+                    self.error( options.mock.response );
+                }
+                self.always( options.mockResponse );
+            }
         };
     };
 
@@ -78,7 +92,7 @@
     _isFunction = function( obj ) {
         return Object.prototype.toString.call( obj ) === "[object Function]";
     };
-
+    _commands.Command = Command;
     window.commands = _commands;
 
 })( window.jQuery, Object, window );
