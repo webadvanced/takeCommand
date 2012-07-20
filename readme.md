@@ -84,7 +84,7 @@ var user = (function( $ ) {
 			$(this).remove();
 		});
 	};
-
+	signals.subscribe('userCreateCommand:success', user.addToList);
 	return _user;
 })( jQuery, signals );
 
@@ -98,7 +98,6 @@ var user = (function( $ ) {
 
 
 $(function() {
-	signals.subscribe('userCreateCommand:success', user.addToList);
 	$('#userCreateForm').submit(commands.userCreateComand.send);
 });
 ```
