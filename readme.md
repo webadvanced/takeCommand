@@ -55,8 +55,8 @@ When testing your JavaScript you may not want to fire actual Ajax calls. takeCom
 //simulating a Jasmine test
 when('Ajax call was successfull', function() {
 	commands.testMode = true; //putting commands into test mode
-	addUserCommand.options.mock.wasSuccess = true;
-	addUserCommand.options.mock.data = {message: 'User created successfully', userId: 7};
+	addUserCommand.options.mock.wasSuccess = true; //signifying a successful Ajax request
+	addUserCommand.options.mock.data = {message: 'User created successfully', userId: 7}; //the fake response data that would have come from the server
 
 	...
 	
