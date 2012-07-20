@@ -1,4 +1,4 @@
-( function( $, Object, window ) {
+( function( $, Object, window, signals ) {
     "use strict";
     var _commands = {
             testMode: false,
@@ -47,7 +47,9 @@
         
         var command = new Command( key, $.extend( options, _defaultOptions ) );
         _commands[key] = command;
-        if( useSignals ) _bindCommandToSignals( key, command );
+        if( _commands.useSignals ) { 
+            _bindCommandToSignals( key, command );
+        }
         return command;
     };
 
@@ -103,4 +105,4 @@
     _commands.Command = Command;
     window.commands = _commands;
 
-})( window.jQuery, Object, window );
+})( window.jQuery, Object, window, window.signals );
