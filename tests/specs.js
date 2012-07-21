@@ -72,6 +72,27 @@ describe('using takeCommand', function() {
 		});
 	});
 
+	describe('when using command.bind', function() {
+		var command = buildCommand(),
+			_temp,
+			s = function(response) { _temp = response || 'called by success'; },
+			d = function() { return 'from the callback' };
+		command.success(s);
+		
+		it('should bind Ajax call to provided el and event', function() {
+			_temp = '';
+			command.bind('#theLink', 'click');
+			$('#theLink').trigger('click');
+			expect(_temp).toEqual('called by success');
+		});
+
+		it('should use the hash from callback as options.data', function() {
+			command.bind('#theOtherLink', 'click', d);
+			$('#theOtherLink').trigger('click');
+			expect(command.options.data).toEqual('from the callback');
+		});
+	});
+
 	describe('when calling send/execute', function() {
 		var command = buildCommand()
 		commands.testMode = true;

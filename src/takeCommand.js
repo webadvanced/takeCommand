@@ -58,15 +58,15 @@
 
     Command.fn = Command.prototype;
 
-    Command.fn.bind = function( selector, events, func ) {
+    Command.fn.bind = function( selectors, events, func ) {
         var self = this,
-            data;
+            data = self.options.data;
         data = ( _isFunction( func ) ) ? func() : data;
-        $( window ).on( events, selector, function( evt ) {
+        $( 'body' ).on( events, selectors, function( evt ) {
             evt.preventDefault();
             self.send( data );
-            return this;
         });
+        return this;
     };
     
     Command.fn.clearCallback = function( name ) {
