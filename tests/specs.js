@@ -42,6 +42,7 @@ describe('using takeCommand', function() {
 			s = function() { },
 			e = function() { },
 			a = function() { };
+		
 		it('should set s as the success function', function() {
 			command.success( s );
 			expect( command.success ).toEqual( s );
@@ -63,6 +64,7 @@ describe('using takeCommand', function() {
 			s = function() { };
 		command.success(s);
 		command.clearCallback('success');
+
 		it('should unbind success function', function() {
 			expect(command.success).not.toEqual(s);
 		});
@@ -102,6 +104,7 @@ describe('using takeCommand', function() {
 				command.send();
 				expect(command.success).toHaveBeenCalled();
 			});
+		
 			it('should call the always funtion', function() {
 				spyOn(command, 'always');
 				command.send();
@@ -115,6 +118,7 @@ describe('using takeCommand', function() {
 				command.send();
 				expect(command.error).toHaveBeenCalled();
 			});
+		
 			it('should call the always funtion', function() {
 				spyOn(command, 'always');
 				command.send();
@@ -130,12 +134,14 @@ describe('using takeCommand', function() {
 			e = function() { },
 			a = function() { };
 		command.success(s).error(e).always(a);
+		
 		it('should not send an Ajax request', function() {
 			command.options.mock.wasSuccess = true;
 			spyOn(command, 'success');
 			command.send();
 			expect(command.success).toHaveBeenCalled();
 		});
+		
 		it('should pass mock.data to callbacks', function() {
 			var mockData = { message: 'this is a success message' };
 			command.options.mock.wasSuccess = true;
