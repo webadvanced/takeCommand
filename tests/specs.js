@@ -125,4 +125,14 @@ describe('using takeCommand', function() {
 		});
 	});
 
+	describe('when commands.useSignals is true', function() {
+		it('should wire up signal broadcasts for all callbacks', function() {
+			commands.useSignals = true;
+			var command = buildCommand();
+			expect(command.success.toString()).toContain('broadcast');
+			expect(command.error.toString()).toContain('broadcast');
+			expect(command.always.toString()).toContain('broadcast');
+		});
+	});
+
 });

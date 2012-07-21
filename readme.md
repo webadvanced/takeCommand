@@ -60,7 +60,7 @@ when('Ajax call was successfull', function() {
 
 	...
 
-	addUserCommand.send(); //will be a success and fire the success and always function. It will also pass in the defined mock.data object to the called methods
+	addUserCommand.send(); //will be a success and fire the success and always functions. It will also pass in the defined mock.responseData object to the callbacks
 	
 });
 ```
