@@ -56,9 +56,11 @@ When testing your JavaScript, you may not want to fire actual Ajax calls. takeCo
 when('Ajax call was successfull', function() {
 	commands.testMode = true; //putting commands into test mode
 	addUserCommand.options.mock.wasSuccess = true; //signifying a successful Ajax request
-	addUserCommand.options.mock.data = {message: 'User created successfully', userId: 7}; //the fake response data that would have come from the server
+	addUserCommand.options.mock.responseData = {message: 'User created successfully', userId: 7}; //the fake response data that would have come from the server
 
 	...
+
+	addUserCommand.send(); //will be a success and fire the success and always function. It will also pass in the defined mock.data object to the called methods
 	
 });
 ```

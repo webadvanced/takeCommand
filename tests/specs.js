@@ -77,13 +77,11 @@ describe('using takeCommand', function() {
 		commands.testMode = true;
 		describe('when the call is successfull', function() {
 			it('should call the success funtion', function() {
-				command.options.mock.wasSuccess = true;
 				spyOn(command, 'success');
 				command.send();
 				expect(command.success).toHaveBeenCalled();
 			});
 			it('should call the always funtion', function() {
-				command.options.mock.wasSuccess = true;
 				spyOn(command, 'always');
 				command.send();
 				expect(command.always).toHaveBeenCalled();	
@@ -101,6 +99,29 @@ describe('using takeCommand', function() {
 				command.send();
 				expect(command.always).toHaveBeenCalled();	
 			});
+		});
+	});
+
+	describe('when comands.testMode is true', function() {
+		commands.testMode = true;
+		var command = buildCommand(),
+			s = function() { },
+			e = function() { },
+			a = function() { };
+		command.success(s).error(e).always(a);
+		it('should not send an Ajax request', function() {
+			command.options.mock.wasSuccess = true;
+			spyOn(command, 'success');
+			command.send();
+			expect(command.success).toHaveBeenCalled();
+		});
+		it('should pass mock.data to callbacks', function() {
+			var mockData = { message: 'this is a success message' };
+			command.options.mock.wasSuccess = true;
+			command.options.mock.responseData = mockData;
+			spyOn(command, 'success');
+			command.send();
+			expect(command.success).toHaveBeenCalledWith( mockData );
 		});
 	});
 

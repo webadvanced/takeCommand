@@ -1,11 +1,14 @@
 ( function( $, Object, window, signals ) {
     "use strict";
-    var _commands = {
+    var _commands = { 
             testMode: false,
-            useSignals: false,
-            mock: {}
+            useSignals: false
         },
-        _defaultOptions = { type: 'GET',  dataType: 'JSON', mock: {} },
+        _defaultOptions = { 
+            type: 'GET',  
+            dataType: 'JSON', 
+            mock: { wasSuccess: true }
+        },
         _isFunction,
         _checkArg = {},
         _bindCommandToSignals,
@@ -31,11 +34,11 @@
                 $.ajax( self.options ).success( self.success ).always( self.always ).error( self.error );    
             } else {
                 if( self.options.mock.wasSuccess ) {
-                    self.success( self.options.mock.response );
+                    self.success( self.options.mock.responseData );
                 } else {
-                    self.error( self.options.mock.response );
+                    self.error( self.options.mock.responseData );
                 }
-                self.always( self.options.mockResponse );
+                self.always( self.options.responseData );
             }
         };
     };
