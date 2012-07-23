@@ -1,5 +1,9 @@
-#jQuery Ajax Commands#
+#Take Command - jQuery Ajax Commands#
 
+##What and Why##
+Take Command is a wrapper for jQuery Ajax that allows you to easily define all your server side calls into one easy to manage object. Commands do not execute immediately, helping to organize your applications, Ajax calls, and their callback functions (success, error and always).
+
+#Using it ...#
 
 ##Register a command##
 Registering a command is simple. It takes a key (string) and a settings object that must contain a property for `url`. By default, the `type` will be set to `GET` and `dataType` will be set to `JSON`. For more information on available settings, checkout the jQuery docs here: http://api.jquery.com/jQuery.ajax/
@@ -64,8 +68,8 @@ when('Ajax call was successfull', function() {
 	
 });
 ```
-##Using takeCommand with signals##
-takeCommand can be used with signals to automatically enable pubsub event binding and triggering. This requires signals.js (https://github.com/webadvanced/signals.js) but will keep apps more loosely coupled.
+##Using takeCommand with signals.js##
+takeCommand can be used with signals to automatically enable pubsub event binding and triggering. This requires signals.js (https://github.com/webadvanced/signals.js or Install-Package Signals.js) but will keep apps more loosely coupled.
 
 ```javascript
 //tell takeCommand you want to use signals
