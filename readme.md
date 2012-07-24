@@ -29,7 +29,7 @@ addUserCommand.success( function() {
     //clear form fields
 });
 
-//getting the reference to the commands from the commands hash
+//getting the reference to a specific command from the commands hash
 commands.updateUserCommand.success( function() {
     alert( 'success!' );
 });
