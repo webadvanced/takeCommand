@@ -10,7 +10,9 @@ Registering a command is simple. It takes a key (string) and a settings object t
 
 ```javascript
 var addUserCommand = commands.register( 'addUserCommand', { url: '/users/add' } ); //creating a variable
-commands.register(  'updateUserCommand', { url: '/users/update '} );
+commands.register(  'updateUserCommand', { url: '/users/update'} );
+//If you only want to define the url, you can simply pass it as a string literal to the second argument.
+//commands.register(  'updateUserCommand', '/users/update' );
 ```
 After you have created a command, it will accessible on the `commands` hash.
 
