@@ -8,19 +8,34 @@
 </head>
 
 <body>
-  <a id="theLink" href="#"></a>
-  <a id="theOtherLink" href="#"></a>
-  <a id="theOtherOtherLink" href="#"></a>
-  
-
+  <div style="position:absolute;top:-1000px">
+    <a id="theLink" href="#"></a>
+    <a id="theOtherLink" href="#"></a>
+    <a id="theOtherOtherLink" href="#"></a>
+    <form action="/foo" method="POST" id="mockFormNoVal">
+      <input type="text" name="mockInput" value="MockText" id="mockInput" />
+      <input type="submit" />
+    </form>​
+    <form id="mockFormVal">
+      <label for="field">Required: </label>
+      <input class="left" id="field" name="field" />
+      <br/>
+      <input type="submit" value="Validate!" />
+    </form>
+  </div>
   <script type="text/javascript" src="jasmine-1.2.0/jasmine.js"></script>
   <script type="text/javascript" src="jasmine-1.2.0/jasmine-html.js"></script>
   <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+  <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
   <script type="text/javascript" src="https://raw.github.com/webadvanced/signals.js/master/signals.min.js"></script>
   <script type="text/javascript" src="../src/takeCommand.js"></script>
   <!--<script type="text/javascript" src="../take-command.min.js"></script>-->
   <script type="text/javascript" src="specs.js"></script>
     <script type="text/javascript">
+        
+    $("#mockFormVal").validate({
+      rules: { field: "required" }
+    });
     (function() {
       var jasmineEnv = jasmine.getEnv();
       jasmineEnv.updateInterval = 1000;

@@ -102,6 +102,25 @@ describe('using takeCommand', function() {
 			$('#theOtherOtherLink').trigger('click');
 			expect(command.options.data).toEqual('theOtherOtherLink');
 		});
+		
+		describe('when the el is a form and jQuery validation is included', function() {
+			it('should serialize the form and set it as options.data', function() {
+				var command = buildCommand('noValForm');
+				command.bind('#mockFormNoVal', 'submit');
+				$('#mockFormNoVal').trigger('submit');
+				expect(command.options.data).toEqual('mockInput=MockText');
+			});
+
+			it('should not send the Ajax request if the form is not valid', function() {
+				console.log($("#mockFormVal").valid());
+				var command = buildCommand('valForm');
+				command.bind('#mockFormVal', 'submit');
+				command.always(function() {});
+				spyOn(command, 'always');
+				$('#mockFormVal').trigger('submit');
+				expect(command.always).not.toHaveBeenCalled();
+			});
+		});
 	});
 
 	describe('when calling send/execute', function() {

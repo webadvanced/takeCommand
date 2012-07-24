@@ -74,9 +74,9 @@
             }
             //if the form is using jQuery validation, ensure the form is valid
             if( $form && $form.valid ) {
-                shouldProcess = !$form.valid();
+                shouldProcess = $form.valid();
             }
-            
+
             //if the form is not valid, we should return
             if( !shouldProcess ) return;
 
@@ -86,6 +86,7 @@
             }
 
             data = ( _isFunction( func ) ) ? func.apply(this, arguments) : data;
+
             self.send( data );
         });
         return this;
