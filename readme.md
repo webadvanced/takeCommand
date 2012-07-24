@@ -85,28 +85,28 @@ var user = (function( $ ) {
 			text: user.fullName + ' (' + user.age + ')')
 			id: user.id
 		});
-		$('#userList').append($li);
+		$( '#userList' ).append( $li );
 	};
 	_user.remove = function( user ) {
-		$('#' + user.id).fadeOut('fast', function() {
-			$(this).remove();
+		$( '#' + user.id ).fadeOut( 'fast', function() {
+			$( this ).remove();
 		});
 	};
-	signals.subscribe('userCreateCommand:success', user.addToList);
+	signals.subscribe( 'userCreateCommand:success', user.addToList );
 	return _user;
 })( jQuery, signals );
 
 //setup your commands
 (function( commands ) {
 	commands.register('userCreateCommand', { url: '/users/add' });
-	//success => signals.broadcast('userCreateCommand:success')
-	//error => signals.broadcast('userCreateCommand:error')
-	//always => signals.broadcast('userCreateCommand:always')
+	//success => signals.broadcast( 'userCreateCommand:success' )
+	//error => signals.broadcast( 'userCreateCommand:error' )
+	//always => signals.broadcast( 'userCreateCommand:always' )
 })( commands );
 
 //bind to a dom el and event
 $(function() {
-	commands.userCreateComand.bind('#userCreateForm', 'submit');
+	commands.userCreateComand.bind( '#userCreateForm', 'submit' );
 	//because the selected el is a <form> we will: 
 	//automatically check if the form is valid if using jQuery validation
 	//serialize the form and set it as the command.options.data property
