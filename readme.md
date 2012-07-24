@@ -104,8 +104,11 @@ var user = (function( $ ) {
 	//always => signals.broadcast('userCreateCommand:always')
 })( commands );
 
-
+//bind to a dom el and event
 $(function() {
-	$('#userCreateForm').submit(commands.userCreateComand.send);
+	commands.userCreateComand.bind('#userCreateForm', 'submit');
+	//because the selected el is a <form> we will: 
+	//automatically check if the form is valid if using jQuery validation
+	//serialize the form and set it as the command.options.data property
 });
 ```
