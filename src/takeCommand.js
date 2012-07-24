@@ -62,9 +62,29 @@
 
     Command.fn.bind = function( selectors, events, func ) {
         var self = this,
-            data = self.options.data;
+            data = self.options.data,
+            $form,
+            shouldProcess = true;
         $( 'body' ).on( events, selectors, function( evt ) {
             evt.preventDefault();
+            
+            //if the selected element is a form, wrap it with jQuery and set the $form variable
+            if( this.action && this.method ) {
+                $form = $( this );
+            }
+            //if the form is using jQuery validation, ensure the form is valid
+            if( $form && $form.valid ) {
+                shouldProcess = !$form.valid();
+            }
+            
+            //if the form is not valid, we should return
+            if( !shouldProcess ) return;
+
+            //if the selected element is a form, serialize it and set to the Ajax requests data
+            if( $form ) {
+                data = $form.serialize();
+            }
+
             data = ( _isFunction( func ) ) ? func.apply(this, arguments) : data;
             self.send( data );
         });
