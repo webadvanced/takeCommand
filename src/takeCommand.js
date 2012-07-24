@@ -63,9 +63,9 @@
     Command.fn.bind = function( selectors, events, func ) {
         var self = this,
             data = self.options.data;
-        data = ( _isFunction( func ) ) ? func() : data;
         $( 'body' ).on( events, selectors, function( evt ) {
             evt.preventDefault();
+            data = ( _isFunction( func ) ) ? func.apply(this, arguments) : data;
             self.send( data );
         });
         return this;

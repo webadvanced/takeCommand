@@ -1,7 +1,7 @@
 #Take Command - jQuery Ajax Commands#
 
 ##What and Why##
-Take Command is a wrapper for jQuery Ajax that allows you to easily define all your server side calls into one easy to manage object. Commands do not execute immediately, helping to organize your applications, Ajax calls, and their callback functions (success, error and always).
+Take Command is a wrapper for jQuery Ajax that allows you to easily define all your server side calls into one easy to manage object. Commands do not execute immediately, helping to organize your applications, Ajax calls, and their callback functions (success, error and always). When testing your JavaScript, you may not want to fire actual Ajax calls. takeCommand allows you to put your commands in test mode. You can set a flag to identify whether the Ajax call was a success or fail as well as provide mock response data.
 
 #Using it ...#
 

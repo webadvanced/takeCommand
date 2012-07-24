@@ -79,7 +79,8 @@ describe('using takeCommand', function() {
 		var command = buildCommand(),
 			_temp,
 			s = function(response) { _temp = response || 'called by success'; },
-			d = function() { return 'from the callback' };
+			d = function() { return 'from the callback' },
+			ds = function() { return this.id; };
 		command.success(s);
 		
 		it('should bind Ajax call to provided el and event', function() {
@@ -93,6 +94,13 @@ describe('using takeCommand', function() {
 			command.bind('#theOtherLink', 'click', d);
 			$('#theOtherLink').trigger('click');
 			expect(command.options.data).toEqual('from the callback');
+		});
+
+		it('should set the scope of the callback to the elemet', function() {
+			command = buildCommand();
+			command.bind('#theOtherOtherLink', 'click', ds);
+			$('#theOtherOtherLink').trigger('click');
+			expect(command.options.data).toEqual('theOtherOtherLink');
 		});
 	});
 
