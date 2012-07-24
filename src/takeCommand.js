@@ -46,7 +46,9 @@
     _commands.register = function( key, options ) {
         _checkArg.required( key, 'Please provide a key to register' );
         _checkArg.required( options, 'You must provide an options object with a URL property' );
-        _checkArg.required( options.url, 'You must provide an options object with a URL property' );
+        if( typeof options === 'string' ) {
+            options = { url: options };
+        }
         
         var command = new Command( key, $.extend( options, _defaultOptions ) );
         _commands[key] = command;

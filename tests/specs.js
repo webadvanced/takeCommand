@@ -17,8 +17,9 @@ describe('using takeCommand', function() {
 			expect(function() {commands.register('mockCommand')}).toThrow();
 		});
 
-		it('should throw when options object does not contain a url property', function() {
-			expect(function() {commands.register('mockCommand', {})}).toThrow();
+		it('should convert the options string into an option and set the url property', function() {
+			var command = buildCommand(null, '/mock/update');
+			expect(command.options.url).toEqual( '/mock/update' );
 		});
 
 		it('should set default jQuery Ajax options for type to GET', function() {
