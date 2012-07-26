@@ -2,8 +2,7 @@ takeCommand.CommandGroup = ( function( takeCommand, $ ) {
     "use strict";
     var CommandGroup = takeCommand.Module.base( takeCommand.Events );
     CommandGroup.include({
-        testMode: false,
-        useSignals: false,
+        testMode: false
         init: function( key ) {
             this.key = key;
             takeCommand.groups[key] = this;

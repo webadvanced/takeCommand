@@ -6,8 +6,7 @@
           addShims();
         },
         groups: {},
-        testMode: false,
-        useSignals: false //not sure this data belogs here
+        testMode: false
     },
   	addShims;
 
