@@ -2,13 +2,21 @@
 <head>
     <title>Sample</title>
     <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
-    <script type="text/javascript" src="../src/takeCommand.js"></script>
+    <script type="text/javascript" src="../src/takeCommand.core.js"></script>
+    <script type="text/javascript" src="../src/takeCommand.utils.js"></script>
+    <script type="text/javascript" src="../src/takeCommand.events.js"></script>
+    <script type="text/javascript" src="../src/takeCommand.module.js"></script>
+    <script type="text/javascript" src="../src/takeCommand.command.js"></script>
+    <script type="text/javascript" src="../src/takeCommand.commandGroup.js"></script>
     <script type="text/javascript">
         $(function() {
 
             var taskCommands = takeCommand.CommandGroup.init('taskCommands');
-            //taskCommands.register('create', '/tasks/create').success(function() {console.log('added new task.');});
-            //taskCommands.create.trigger('success');
+            console.log(taskCommands);
+            var create = taskCommands.register('create', '/tasks/create');
+            console.log(create);
+            create.success(function() {console.log('added new task.');});
+            create.publish('success');
             //taskCommands.create.send();
         });
     </script>

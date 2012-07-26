@@ -48,7 +48,7 @@
         _checkArg.required(key, 'A command group key is required');
         this.key = key;
     };
-
+    
     commandGroup.fn = commandGroup.prototype
 
     _commands.register = function( key, options ) {
