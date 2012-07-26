@@ -9,8 +9,8 @@ takeCommand.utils = ( function( Array, Object ) {
   	};
 
     utils.chkArg.isNotFalsy = function( obj, msg ) {
-        if(!obj) {
-            throwError((msg) ? 'Argument cannot be falsy : ' + msg : 'Argument cannot be falsy');
+        if( !obj ) {
+            throwError( ( msg ) ? 'Argument cannot be falsy : ' + msg : 'Argument cannot be falsy' );
         }
     };
 

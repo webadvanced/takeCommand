@@ -1,4 +1,5 @@
 //factory function for command
+var commands = takeCommand.CommandGroup.init('commands');
 var buildCommand = function(key, options) {
 	key = key || 'mockCommand';
 	options = options || {url: '/mock/add'};

@@ -10,8 +10,8 @@ takeCommand.Command = ( function( takeCommand, $ ) {
         _checkArg = _utils.chkArg;
     Command.include({
         init: function( key, options ) {
-            _checkArg.isNotUndefined( key, 'Please provide a key to register' );
-            _checkArg.isNotUndefined( options, 'You must provide an options object with a URL property' );
+            _checkArg.isNotFalsy( key, 'command key' );
+            _checkArg.isNotFalsy( options, 'command options' );
             if( typeof options === 'string' ) {
                 options = { url: options };
             }
@@ -24,15 +24,15 @@ takeCommand.Command = ( function( takeCommand, $ ) {
                 if( data && !data.currentTarget ) {
                     this.options.data = data;
                 }
-                if( !this.group.testMode ) {
-                    $.ajax( this.options ).success( this.success ).always( this.always ).error( this.error );    
-                } else {
+                if( this.group.testMode || takeCommand.testMode ) {
                     if( this.options.mock.wasSuccess ) {
                         this.success( this.options.mock.responseData );
                     } else {
                         this.error( this.options.mock.responseData );
                     }
                     this.always( this.options.responseData );
+                } else {
+                    $.ajax( this.options ).success( this.success ).always( this.always ).error( this.error );
                 }
             }));
             
