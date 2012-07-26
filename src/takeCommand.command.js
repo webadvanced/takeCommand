@@ -20,7 +20,6 @@ takeCommand.Command = ( function( takeCommand, $ ) {
         },
         initialized: function() {
             this.subscribe('send', this.proxy(function( data ) {
-                console.log(this);
                 if( data && !data.currentTarget ) {
                     this.options.data = data;
                 }

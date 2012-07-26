@@ -40,24 +40,27 @@ describe('using takeCommand', function() {
 	});
 
 	describe('when binding success, error and always function to a command', function() {
-		var command = buildCommand(),
-			s = function() { },
-			e = function() { },
-			a = function() { };
+		var command = buildCommand();
 		
 		it('should set s as the success function', function() {
-			command.success( s );
-			expect( command.success ).toEqual( s );
+			var functionName;
+			command.success( function() { functionName = 's'; } );
+			command.publish( 'success' );
+			expect( functionName ).toEqual( 's' );
 		});
 
 		it('should set e as the error function', function() {
-			command.error( e );
-			expect( command.error ).toEqual( e );
+			var functionName;
+			command.error( function() { functionName = 'e'; } );
+			command.publish( 'error' );
+			expect( functionName ).toEqual( 'e' );
 		});
 
 		it('should set a as the always function', function() {
-			command.always( a );
-			expect( command.always ).toEqual( a );
+			var functionName;
+			command.always( function() { functionName = 'a'; } );
+			command.publish( 'always' );
+			expect( functionName ).toEqual( 'a' );
 		});
 	});
 
