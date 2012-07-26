@@ -75,7 +75,7 @@ describe('using takeCommand', function() {
 		});
 
 		it('should reset to the prototype success function', function() {
-			expect(command.success).toEqual(commands.Command.prototype.success);
+			expect(command.success).toEqual(takeCommand.Command.prototype.success);
 		});
 	});
 
@@ -116,7 +116,6 @@ describe('using takeCommand', function() {
 			});
 
 			it('should not send the Ajax request if the form is not valid', function() {
-				console.log($("#mockFormVal").valid());
 				var command = buildCommand('valForm');
 				command.bind('#mockFormVal', 'submit');
 				command.always(function() {});

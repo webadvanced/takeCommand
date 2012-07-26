@@ -71,6 +71,8 @@ takeCommand.Command = ( function( takeCommand, $ ) {
             return this;
         },
         clearCallback: function( name ) {
+            _checkArg.isNotFalsy( name, 'callback name' );
+            this.forget( name );
             delete this[name];
             return this;
         },
