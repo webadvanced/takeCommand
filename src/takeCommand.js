@@ -1,6 +1,6 @@
 ( function( $, Object, window, signals ) {
     "use strict";
-    var _commands = { 
+    var _takeCommand = { 
             testMode: false,
             useSignals: false
         },
@@ -12,7 +12,8 @@
         _isFunction,
         _checkArg = {},
         _bindCommandToSignals,
-        Command;
+        Command,
+        CommandGroup;
 
     _checkArg.required = function( obj, message ) {
         if( !obj ) {
@@ -42,6 +43,13 @@
             }
         };
     };
+
+    CommandGroup = function(key) {
+        _checkArg.required(key, 'A command group key is required');
+        this.key = key;
+    };
+
+    commandGroup.fn = commandGroup.prototype
 
     _commands.register = function( key, options ) {
         _checkArg.required( key, 'Please provide a key to register' );
@@ -128,7 +136,7 @@
     _isFunction = function( obj ) {
         return Object.prototype.toString.call( obj ) === "[object Function]";
     };
-    _commands.Command = Command;
-    window.commands = _commands;
+    _takeCommand.Command = Command;
+    window.takeCommand = _takeCommand;
 
 })( window.jQuery, Object, window, window.signals );

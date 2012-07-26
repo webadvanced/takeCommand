@@ -5,30 +5,11 @@
     <script type="text/javascript" src="../src/takeCommand.js"></script>
     <script type="text/javascript">
         $(function() {
-            var sendRequestOne = commands.register('sendRequestOne', {url: 'runner.html', dataType: 'HTML'});
-            sendRequestOne.success(function() {
-                console.log('I got called - request 1 : success');
-            }).always(function() {
-                console.log('I got called - request 1 : always');
-            }).error(function(){
-                console.log('I got called - request 1 : error');
-            });
-            var sendRequestTwo = commands.register('sendRequestTwo', {url: 'runner.html'});
-            sendRequestTwo.success(function(data) {
-                console.log('I got called - request 2 : done');
-            });        
 
-            commands.sendRequestTwo.always(function() {
-                console.log('I got called - request 2 : always');
-            }); 
-
-            sendRequestOne.send();
-            sendRequestOne.clearCallback('always').always(function() {
-                console.log('the new sendRequestOne : always');
-            });
-
-            $('#l1').click(sendRequestOne.send);
-            sendRequestTwo.bind('#l2', 'click');
+            var taskCommands = takeCommand.CommandGroup.init('taskCommands');
+            //taskCommands.register('create', '/tasks/create').success(function() {console.log('added new task.');});
+            //taskCommands.create.trigger('success');
+            //taskCommands.create.send();
         });
     </script>
 </head>
