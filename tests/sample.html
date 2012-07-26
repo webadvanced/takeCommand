@@ -12,12 +12,13 @@
         $(function() {
 
             var taskCommands = takeCommand.CommandGroup.init('taskCommands');
-            console.log(taskCommands);
+            //console.log(taskCommands);
             var create = taskCommands.register('create', '/tasks/create');
-            console.log(create);
-            create.success(function() {console.log('added new task.');});
-            create.publish('success');
-            create.success();
+            //console.log(create);
+            create.always(function() {console.log('added new task.');});
+            /*create.publish('success');
+            create.success();*/
+            create.send();
         });
     </script>
 </head>
