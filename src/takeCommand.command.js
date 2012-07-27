@@ -1,4 +1,4 @@
-takeCommand.Command = ( function( takeCommand, $ ) {
+window.takeCommand.Command = ( function( takeCommand, $ ) {
     "use strict";
     var Command = takeCommand.Module.base( takeCommand.Events ),
         _defaultOptions = { 
@@ -31,7 +31,13 @@ takeCommand.Command = ( function( takeCommand, $ ) {
                     }
                     this.always( this.options.responseData );
                 } else {
-                    $.ajax( this.options ).success( this.success ).always( this.always ).error( this.error );
+                    $.ajax( this.options ).success( this.proxy( function() {
+                        this.publish( 'success' );
+                    })).always( this.proxy( function() {
+                        this.publish( 'always' );
+                    })).error( this.proxy( function() {
+                        this.publish( 'error' );
+                    }));
                 }
             }));
             
@@ -57,7 +63,9 @@ takeCommand.Command = ( function( takeCommand, $ ) {
                 }
 
                 //if the form is not valid, we should return
-                if( !shouldProcess ) return;
+                if( !shouldProcess ) { 
+                    return;
+                }
     
                 //if the selected element is a form, serialize it and set to the Ajax requests data
                 if( $form ) {
@@ -96,11 +104,8 @@ takeCommand.Command = ( function( takeCommand, $ ) {
         },
         wrap: function( func, eventName ) {
             this.subscribe( eventName, this.proxy( func ) );
-            this[eventName] = this.proxy( function() {
-                this.publish( eventName );
-            });
         }
     });
 
     return Command;
-})( takeCommand, jQuery );
+})( window.takeCommand, window.jQuery );

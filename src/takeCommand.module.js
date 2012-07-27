@@ -1,9 +1,9 @@
-takeCommand.Module = ( function(takeCommand, $ ) {
+window.takeCommand.Module = ( function(takeCommand, $ ) {
     "use strict";
     var Module, 
         moduleKeywords = ['included', 'extended'],
         _utils = takeCommand.utils,
-        _checkArg = _utils.chkArg;;
+        _checkArg = _utils.chkArg;
     Module = {
         inherited: function() {},
         created: function() {},
@@ -12,17 +12,20 @@ takeCommand.Module = ( function(takeCommand, $ ) {
             initialized: function() {}
         },
         extend: function( obj ) {
-            for( var key in obj )
-                if ( moduleKeywords.indexOf( key ) == -1 ) {
+            for( var key in obj ) {
+                if ( moduleKeywords.indexOf( key ) === -1 ) {
                     this[key] = obj[key];
                 }
+            }
             var extended = obj.extended;
-            if ( extended ) extended.apply( this );
+            if ( extended ) {
+                extended.apply( this );
+            }
             return this;
         },
         include: function( obj ) {
             for( var key in obj ) {
-                if( moduleKeywords.indexOf( key ) == -1 ) {
+                if( moduleKeywords.indexOf( key ) === -1 ) {
                     this.prototype[key] = obj[key];
                 }
             }
@@ -75,4 +78,4 @@ takeCommand.Module = ( function(takeCommand, $ ) {
     Module.prototype.proxyAll = Module.proxyAll;
     Module.base = Module.create;
     return Module;
-})(takeCommand, jQuery);
+})( window.takeCommand, window.jQuery );

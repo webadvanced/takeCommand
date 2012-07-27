@@ -15,7 +15,8 @@
             //console.log(taskCommands);
             var create = taskCommands.register('create', '/tasks/create');
             //console.log(create);
-            create.always(function() {console.log('added new task.');});
+            create.always(function() {console.log('added new task. -1-');});
+            create.always(function() {console.log('added new task. -2-');});
             /*create.publish('success');
             create.success();*/
             create.send();

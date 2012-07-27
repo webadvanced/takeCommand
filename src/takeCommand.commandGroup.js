@@ -1,8 +1,8 @@
-takeCommand.CommandGroup = ( function( takeCommand, $ ) {
+window.takeCommand.CommandGroup = ( function( takeCommand, $ ) {
     "use strict";
     var CommandGroup = takeCommand.Module.base( takeCommand.Events );
     CommandGroup.include({
-        testMode: false
+        testMode: false,
         init: function( key ) {
             this.key = key;
             takeCommand.groups[key] = this;
@@ -16,14 +16,9 @@ takeCommand.CommandGroup = ( function( takeCommand, $ ) {
             this[key] = command;
             command.group = this;
             //send event after
-            if( this.useSignals || takeCommand.useSignals ) {
-                command.success(signals.proxy(key + ':success'));
-                command.error(signals.proxy(key + ':error'));
-                command.always(signals.proxy(key + ':always'));
-            }
             return command;
         }
     });
 
     return CommandGroup;
-})( takeCommand, jQuery );
+})( window.takeCommand, window.jQuery );

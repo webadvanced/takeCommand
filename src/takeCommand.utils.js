@@ -1,4 +1,4 @@
-takeCommand.utils = ( function( Array, Object ) {
+window.takeCommand.utils = ( function( Array, Object ) {
     "use strict";
     var utils = {
         chkArg: {}
@@ -6,7 +6,7 @@ takeCommand.utils = ( function( Array, Object ) {
     _undefined,
     throwError = function( msg ) {
         throw msg;
-  	};
+    };
 
     utils.chkArg.isNotFalsy = function( obj, msg ) {
         if( !obj ) {
@@ -47,7 +47,9 @@ takeCommand.utils = ( function( Array, Object ) {
         this.chkArg.isFunction( func );
         var i = 0, l = collection.length;
         for( ; i < l; i++ ) {
-          if( func( collection[i], i ) === false ) break;
+            if( func( collection[i], i ) === false ) {
+                break;
+            }
         }
     };
 

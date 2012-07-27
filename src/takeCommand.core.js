@@ -8,7 +8,7 @@
         groups: {},
         testMode: false
     },
-  	addShims;
+    addShims;
 
     addShims = function() {
         if( typeof Object.create !== 'function' ) {

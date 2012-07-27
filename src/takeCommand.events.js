@@ -1,4 +1,4 @@
-takeCommand.Events = ( function( utils ) {
+window.takeCommand.Events = ( function( utils ) {
     "use strict";
     return {
         subscribers: {},
@@ -13,10 +13,16 @@ takeCommand.Events = ( function( utils ) {
                 evt = args.shift(),
                 calls = this.subscribers,
                 list = calls[evt];
-            if( !calls ) return false;
-            if( !list ) return false;
+            if( !calls ) {
+                return false;
+            }
+            if( !list ) {
+                return false;
+            }
             utils.each( list, this.proxy( function( func, i ) {
-                if( func.apply( this, args ) === false ) return false;
+                if( func.apply( this, args ) === false ) {
+                    return false;
+                }
             }));
             return true;
         },
@@ -27,8 +33,12 @@ takeCommand.Events = ( function( utils ) {
             }
             var calls = this.subscribers,
                 list = calls[evt];
-            if( !calls ) return false;
-            if( !list ) return false;
+            if( !calls ) {
+                return false;
+            }
+            if( !list ) {
+                return false;
+            }
 
             if( !callback ) {
                 delete this.subscribers[evt];
@@ -43,4 +53,4 @@ takeCommand.Events = ( function( utils ) {
             return this;
         }
     };
-})(takeCommand.utils);
+})( window.takeCommand.utils );
