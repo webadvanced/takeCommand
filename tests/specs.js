@@ -127,34 +127,39 @@ describe('using takeCommand', function() {
 	});
 
 	describe('when calling send/execute', function() {
-		var command = buildCommand()
+		var command = buildCommand('sendExecute')
 			commands.testMode = true;
 			takeCommand.testMode = true;
 		describe('when the call is successfull', function() {
-			it('should call the success funtion', function() {
-				spyOn(command, 'success');
+			it('should publish all success funtions', function() {
+				var callback = jasmine.createSpy();
+				command.success(callback);
 				command.send();
-				expect(command.success).toHaveBeenCalled();
+				expect(callback).toHaveBeenCalled();
 			});
 		
-			it('should call the always funtion', function() {
-				spyOn(command, 'always');
+			it('should publish all always funtions', function() {
+				var callback = jasmine.createSpy();
+				command.always(callback);
 				command.send();
-				expect(command.always).toHaveBeenCalled();	
+				expect(callback).toHaveBeenCalled();
 			});
 		});
 		describe('when the call is not successfull', function() {
 			it('should call the error funtion', function() {
 				command.options.mock.wasSuccess = false;
-				spyOn(command, 'error');
+				var callback = jasmine.createSpy();
+				command.error(callback);
 				command.send();
-				expect(command.error).toHaveBeenCalled();
+				expect(callback).toHaveBeenCalled();
 			});
 		
-			it('should call the always funtion', function() {
-				spyOn(command, 'always');
+			it('should publish all always funtions', function() {
+				command.options.mock.wasSuccess = false;
+				var callback = jasmine.createSpy();
+				command.always(callback);
 				command.send();
-				expect(command.always).toHaveBeenCalled();	
+				expect(callback).toHaveBeenCalled();
 			});
 		});
 	});
