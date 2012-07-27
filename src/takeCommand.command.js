@@ -19,19 +19,20 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
             this.options =  $.extend( options, _defaultOptions );
         },
         initialized: function() {
-            this.subscribe('send', this.proxy(function( data ) {
+            this.subscribe( 'send', this.proxy(function( data ) {
                 if( data && !data.currentTarget ) {
                     this.options.data = data;
                 }
                 if( this.group.testMode || takeCommand.testMode ) {
                     if( this.options.mock.wasSuccess ) {
-                        this.success( this.options.mock.responseData );
+                        this.publish( 'success',  this.options.responseData );
                     } else {
-                        this.error( this.options.mock.responseData );
+                        this.publish( 'error',  this.options.responseData );
                     }
-                    this.always( this.options.responseData );
+                    this.publish( 'always',  this.options.responseData );
                 } else {
-                    $.ajax( this.options ).success( this.proxy( function() {
+                    $.ajax( this.options )
+                    .success( this.proxy( function() {
                         this.publish( 'success' );
                     })).always( this.proxy( function() {
                         this.publish( 'always' );
@@ -45,14 +46,14 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
         send: function( data ) {
             this.publish( 'send', data);
         },
-        bind: function( selectors, events, func ) {
+        on: function( events, selectors, func ) {
             var self = this,
                 data = self.options.data,
                 $form,
                 shouldProcess = true;
             $( 'body' ).on( events, selectors, function( evt ) {
                 evt.preventDefault();
-            
+
                 //if the selected element is a form, wrap it with jQuery and set the $form variable
                 if( this.action && this.method ) {
                     $form = $( this );
@@ -74,7 +75,7 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
 
                 data = ( _utils.isFunction( func ) ) ? func.apply(this, arguments) : data;
 
-                self.send( data );
+                self.publish( 'send', data );
             });
             return this;
         },

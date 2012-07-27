@@ -82,27 +82,27 @@ describe('using takeCommand', function() {
 	describe('when using command.bind', function() {
 		var command = buildCommand(),
 			_temp,
-			s = function(response) { _temp = response || 'called by success'; },
+			a = function(response) { _temp = response || 'called by always'; },
 			d = function() { return 'from the callback' },
 			ds = function() { return this.id; };
-		command.success(s);
+		command.always(a);
 		
 		it('should bind Ajax call to provided el and event', function() {
 			_temp = '';
-			command.bind('#theLink', 'click');
+			command.on('click', '#theLink');
 			$('#theLink').trigger('click');
-			expect(_temp).toEqual('called by success');
+			expect(_temp).toEqual('called by always');
 		});
 
 		it('should use the hash from callback as options.data', function() {
-			command.bind('#theOtherLink', 'click', d);
+			command.on('click', '#theOtherLink', d);
 			$('#theOtherLink').trigger('click');
 			expect(command.options.data).toEqual('from the callback');
 		});
 
 		it('should set the scope of the callback to the elemet', function() {
 			command = buildCommand();
-			command.bind('#theOtherOtherLink', 'click', ds);
+			command.on('click', '#theOtherOtherLink', ds);
 			$('#theOtherOtherLink').trigger('click');
 			expect(command.options.data).toEqual('theOtherOtherLink');
 		});
@@ -110,14 +110,14 @@ describe('using takeCommand', function() {
 		describe('when the el is a form and jQuery validation is included', function() {
 			it('should serialize the form and set it as options.data', function() {
 				var command = buildCommand('noValForm');
-				command.bind('#mockFormNoVal', 'submit');
+				command.on('submit', '#mockFormNoVal');
 				$('#mockFormNoVal').trigger('submit');
 				expect(command.options.data).toEqual('mockInput=MockText');
 			});
 
 			it('should not send the Ajax request if the form is not valid', function() {
 				var command = buildCommand('valForm');
-				command.bind('#mockFormVal', 'submit');
+				command.on('submit', '#mockFormVal');
 				command.always(function() {});
 				spyOn(command, 'always');
 				$('#mockFormVal').trigger('submit');
@@ -128,7 +128,8 @@ describe('using takeCommand', function() {
 
 	describe('when calling send/execute', function() {
 		var command = buildCommand()
-		commands.testMode = true;
+			commands.testMode = true;
+			takeCommand.testMode = true;
 		describe('when the call is successfull', function() {
 			it('should call the success funtion', function() {
 				spyOn(command, 'success');
@@ -159,7 +160,8 @@ describe('using takeCommand', function() {
 	});
 
 	describe('when comands.testMode is true', function() {
-		commands.testMode = true;
+			commands.testMode = true;
+			takeCommand.testMode = true;
 		var command = buildCommand(),
 			s = function() { },
 			e = function() { },
