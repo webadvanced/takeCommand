@@ -12,9 +12,8 @@ window.takeCommand.CommandGroup = ( function( takeCommand, $ ) {
         },
         register: function( key, options ) {
             //send event before
-            var command = takeCommand.Command.init( key, options );
+            var command = takeCommand.Command.init( key, options, this );
             this[key] = command;
-            command.group = this;
             //send event after
             return command;
         }

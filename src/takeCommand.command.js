@@ -1,6 +1,6 @@
 window.takeCommand.Command = ( function( takeCommand, $ ) {
     "use strict";
-    var Command = takeCommand.Module.base( takeCommand.Events ),
+    var Command = takeCommand.Module.base(),
         _defaultOptions = { 
             type: 'GET',  
             dataType: 'JSON', 
@@ -8,8 +8,9 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
         },
         _utils = takeCommand.utils,
         _checkArg = _utils.chkArg;
+    Command.extend(takeCommand.Events);
     Command.include({
-        init: function( key, options ) {
+        init: function( key, options, group ) {
             _checkArg.isNotFalsy( key, 'command key' );
             _checkArg.isNotFalsy( options, 'command options' );
             if( typeof options === 'string' ) {
@@ -17,6 +18,7 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
             }
             this.key = key;
             this.options =  $.extend( options, _defaultOptions );
+            this.group = group;
         },
         initialized: function() {
             this.subscribe( 'send', this.proxy(function( data ) {
@@ -24,12 +26,13 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
                     this.options.data = data;
                 }
                 if( this.group.testMode || takeCommand.testMode ) {
-                    if( this.options.mock.wasSuccess ) {
-                        this.publish( 'success',  this.options.responseData );
+                    var mock = this.options.mock;
+                    if( mock.wasSuccess ) {
+                        this.publish( 'success',  mock.responseData );
                     } else {
-                        this.publish( 'error',  this.options.responseData );
+                        this.publish( 'error',  mock.responseData );
                     }
-                    this.publish( 'always',  this.options.responseData );
+                    this.publish( 'always',  mock.responseData );
                 } else {
                     $.ajax( this.options )
                     .success( this.proxy( function() {
@@ -79,12 +82,6 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
             });
             return this;
         },
-        clearCallback: function( name ) {
-            _checkArg.isNotFalsy( name, 'callback name' );
-            this.forget( name );
-            delete this[name];
-            return this;
-        },
         success: function( func ) {
             if( func && _utils.isFunction( func ) ) {
                 this.wrap( func, 'success' );
@@ -105,6 +102,19 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
         },
         wrap: function( func, eventName ) {
             this.subscribe( eventName, this.proxy( func ) );
+        },
+        subscribe: function( events, callback ) {
+            this.parent.subscribe( events, callback, this.eventKey() );
+        },
+        publish: function( event, args ) {
+            this.parent.publish( this.parent.keyEvent( event, this.eventKey() ), args );
+        },
+        clearCallback: function( event ) {
+            this.parent.forget( this.parent.keyEvent( event, this.eventKey() ) );
+            return this;
+        },
+        eventKey: function() {
+            return this.key + ':' + this.group.key;
         }
     });
 

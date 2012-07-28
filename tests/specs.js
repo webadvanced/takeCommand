@@ -165,28 +165,27 @@ describe('using takeCommand', function() {
 	});
 
 	describe('when comands.testMode is true', function() {
-			commands.testMode = true;
-			takeCommand.testMode = true;
-		var command = buildCommand(),
-			s = function() { },
-			e = function() { },
-			a = function() { };
-		command.success(s).error(e).always(a);
+		commands.testMode = true;
+		takeCommand.testMode = true;
 		
 		it('should not send an Ajax request', function() {
+			var s = jasmine.createSpy(),
+				command = buildCommand( 'testModeTrueNoData' );
 			command.options.mock.wasSuccess = true;
-			spyOn(command, 'success');
+			command.success( s );
 			command.send();
-			expect(command.success).toHaveBeenCalled();
+			expect( s ).toHaveBeenCalled();
 		});
 		
 		it('should pass mock.data to callbacks', function() {
-			var mockData = { message: 'this is a success message' };
+			var mockData = { message: 'this is a always message' },
+				a = jasmine.createSpy(),
+				command = buildCommand( 'testModeTrueWithData' );
 			command.options.mock.wasSuccess = true;
 			command.options.mock.responseData = mockData;
-			spyOn(command, 'success');
+			command.always( a );
 			command.send();
-			expect(command.success).toHaveBeenCalledWith( mockData );
+			expect( a ).toHaveBeenCalledWith( mockData );
 		});
 	});
 });

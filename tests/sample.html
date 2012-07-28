@@ -14,12 +14,16 @@
             var taskCommands = takeCommand.CommandGroup.init('taskCommands');
             //console.log(taskCommands);
             var create = taskCommands.register('create', '/tasks/create');
+            var update = taskCommands.register('update', '/tasks/update');
             //console.log(create);
             create.always(function() {console.log('added new task. -1-');});
             create.always(function() {console.log('added new task. -2-');});
+            update.always(function() {console.log('updated task. -1-');});
             /*create.publish('success');
             create.success();*/
-            create.send();
+            //create.send();
+            //update.send();
+            create.publish('always');
         });
     </script>
 </head>
