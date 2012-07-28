@@ -179,13 +179,15 @@ describe('using takeCommand', function() {
 		
 		it('should pass mock.data to callbacks', function() {
 			var mockData = { message: 'this is a always message' },
-				a = jasmine.createSpy(),
-				command = buildCommand( 'testModeTrueWithData' );
+				a = function(response) { _temp = response.message ;},
+				command = buildCommand( 'testModeTrueWithData' ),
+				_temp;
 			command.options.mock.wasSuccess = true;
 			command.options.mock.responseData = mockData;
 			command.always( a );
 			command.send();
-			expect( a ).toHaveBeenCalledWith( mockData );
+			
+			expect( _temp ).toEqual( 'this is a always message' );
 		});
 	});
 });
