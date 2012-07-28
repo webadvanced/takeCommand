@@ -5,6 +5,13 @@ Take Command is a wrapper for jQuery Ajax that allows you to easily define all y
 
 #Using it ...#
 
+##Create a command group##
+The first thing you will need is a command group to assign commands to. You can have just one or many command groups it all depends on your applications needs.
+
+```javascript
+var userCommands = takeCommand.CommandGroup.init('userCommands');
+```
+
 ##Register a command##
 Registering a command is simple. It takes a key (string) and a settings object that must contain a property for `url`. By default, the `type` will be set to `GET` and `dataType` will be set to `JSON`. For more information on available settings, checkout the jQuery docs here: http://api.jquery.com/jQuery.ajax/
 
