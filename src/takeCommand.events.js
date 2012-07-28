@@ -12,8 +12,6 @@ window.takeCommand.Events = ( function( utils ) {
             }));
         },
         publish: function() {
-            console.log(arguments);
-            console.log(this.subscribers);
             var args = utils.makeArray( arguments ),
                 evt = args.shift(),
                 calls = this.subscribers,
