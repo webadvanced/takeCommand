@@ -34,14 +34,16 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
                     }
                     this.publish( 'always',  mock.responseData );
                 } else {
-                    $.ajax( this.options )
-                    .success( this.proxy( function() {
+                    this.options.success = this.proxy( function() {
                         this.publish( 'success' );
-                    })).always( this.proxy( function() {
-                        this.publish( 'always' );
-                    })).error( this.proxy( function() {
+                    });
+                    this.options.error =  this.proxy( function() {
                         this.publish( 'error' );
-                    }));
+                    });
+                    this.complete = this.proxy( function() {
+                        this.publish( 'always' );
+                    });
+                    $.ajax( this.options );
                 }
             }));
             

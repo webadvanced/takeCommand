@@ -12,9 +12,11 @@
         $(function() {
 
             var taskCommands = takeCommand.CommandGroup.init('taskCommands');
+            var userCommands = takeCommand.CommandGroup.init('userCommands');
             //console.log(taskCommands);
             var create = taskCommands.register('create', '/tasks/create');
             var update = taskCommands.register('update', '/tasks/update');
+            var add = userCommands.register('add', '/user/add').always(function() {console.log('user command add - always - 1')});
             //console.log(create);
             create.always(function() {console.log('added new task. -1-');});
             create.always(function() {console.log('added new task. -2-');});
@@ -22,6 +24,7 @@
             /*create.publish('success');
             create.success();*/
             create.send();
+            add.send();
             //update.send();
             //create.publish('always');
         });

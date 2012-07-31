@@ -18,6 +18,6 @@ window.takeCommand.CommandGroup = ( function( takeCommand, $ ) {
             return command;
         }
     });
-
+    
     return CommandGroup;
 })( window.takeCommand, window.jQuery );
