@@ -1,14 +1,14 @@
 ( function( exports, Object, Array ) {
     "use strict";
-    var takeCommand = {
-        version: '0.9.3',
-        init: function() {
-          addShims();
-        },
-        groups: {},
-        testMode: false
-    },
-    addShims;
+    var addShims,
+        takeCommand = {
+            version: '0.9.3',
+            init: function() {
+              addShims();
+            },
+            groups: {},
+            testMode: false
+        };
 
     addShims = function() {
         if( typeof Object.create !== 'function' ) {
