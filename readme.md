@@ -24,7 +24,7 @@ commands.register(  'updateUserCommand', { url: '/users/update'} );
 After you have created a command, it will accessible on the `commands` hash.
 
 ##Setting up callbacks for the command##
-Once you have created a command, you can easily define the callback functions for it. The options are `.success`, `.error` and `.always`. You can also remove a callback binding at anytime by using the `.clearCallback` function.
+Once you have created a command, you can easily define the callback functions for it. The options are `.success`, `.error` and `.always`. You can also remove a callback binding at anytime by using the `.clear` function.
 
 ```javascript
 //using the variable
@@ -42,7 +42,7 @@ commands.updateUserCommand.success( function() {
 });
 
 //remove the error callback from the addUserCommand
-addUserCommand.clearCallback('error');
+addUserCommand.clear('error');
 ```
 After a callback has been cleared, you can re-bind a different callback.
 

@@ -111,7 +111,7 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
         publish: function( event, args ) {
             this.parent.publish( this.parent.keyEvent( event, this.eventKey() ), args );
         },
-        clearCallback: function( event ) {
+        clear: function( event ) {
             this.parent.forget( this.parent.keyEvent( event, this.eventKey() ) );
             return this;
         },
