@@ -6,7 +6,7 @@ Take Command is a wrapper for jQuery v1.4.3+ Ajax that allows you to easily defi
 #Using it ...#
 
 ##Create a command group##
-The first thing you will need is a `CommandGroup`. `CommandGroups` are what commands are assigned to and help structure your application code. You can have just one or many `CommandGroups`, it all depends on your applications needs.
+The first thing you will need is a `CommandGroup`. `CommandGroup`s are what commands are assigned to and help structure your application code. You can have just one or many `CommandGroup`s, it all depends on your applications needs.
 
 ```javascript
 var userCommands = takeCommand.CommandGroup.init('userCommands');
