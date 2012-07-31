@@ -69,7 +69,7 @@ If the selected element is a `form`, takeCommand will automaticly serialize the 
 userCommands.update.bind('submit', '#formUpdate');
 ```
 
-##How commands work with tests##
+##How Take Command work with tests##
 When testing your JavaScript, you may not want to fire actual Ajax calls. takeCommand allows you to put your commands in test mode. You can set a flag to identify whether the Ajax call was a success or fail as well as provide mock response data.
 ```javascript
 //simulating a Jasmine test
