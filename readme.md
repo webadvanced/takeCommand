@@ -16,20 +16,22 @@ var userCommands = takeCommand.CommandGroup.init('userCommands');
 Registering a command is simple. It takes a key (string) and a settings object that must contain a property for `url`. By default, the `type` will be set to `GET` and `dataType` will be set to `JSON`. For more information on available settings, checkout the jQuery docs here: http://api.jquery.com/jQuery.ajax/
 
 ```javascript
-var addUserCommand = commands.register( 'addUserCommand', { url: '/users/add' } ); //creating a variable
-commands.register(  'updateUserCommand', { url: '/users/update'} );
+var createUserCommand = userCommands.register( 'create', { url: '/users/create' } ); //creating a variable
+userCommands.register( 'update', { url: '/users/update'} );
 //If you only want to define the url, you can simply pass it as a string literal to the second argument.
-//commands.register(  'updateUserCommand', '/users/update' );
+//userCommands.register( 'update', '/users/update' );
 ```
 After you have created a command, it will accessible on the `commands` hash.
 
 ##Setting up callbacks for the command##
-Once you have created a command, you can easily define the callback functions for it. The options are `.success`, `.error` and `.always`. You can also remove a callback binding at anytime by using the `.clear` function.
+Once you have created a command, you can easily define the callback functions for it. The options are `.success`, `.error` and `.always`. You can also remove a callback binding at anytime by using the `.clear` function. You can register as many callback functions for each callback type as your like.
 
 ```javascript
 //using the variable
-addUserCommand.success( function() {
-    alert( 'success!' );
+createUserCommand.success( function() {
+    alert( 'success 1!' );
+}).success( function() {
+    alert( 'success 2!' );
 }).error( function() {
     alert('there was a problem');
 }).always(function() {
@@ -37,29 +39,34 @@ addUserCommand.success( function() {
 });
 
 //getting the reference to a specific command from the commands hash
-commands.updateUserCommand.success( function() {
+userCommands.update.success( function() {
     alert( 'success!' );
 });
 
-//remove the error callback from the addUserCommand
-addUserCommand.clear('error');
+//remove the error callback from the createUserCommand
+createUserCommand.clear('error'); // will clear all callbacks for the `error` key
+//reateUserCommand.clear(key, func) // will clear the specific callback function
 ```
-After a callback has been cleared, you can re-bind a different callback.
 
 ##Using commands##
-You can use the `.send` or `.execute` methods of each command to send the Ajax request. Optionally pass an object that will be set as the data property of the jQuery Ajax settings object.
+You can use the `.send` method of each command to send the Ajax request. Optionally pass an object that will be set as the data property of the jQuery Ajax settings object.
 ```javascript
 //Manualy execute
-addUserCommand.send( {name: 'Sarah Smith'} );
+createUserCommand.send( {name: 'Sarah Smith'} );
 
 //Use as a callback
-$('#addUserForm').submit(addUserCommand.execute);
+$('#addUserForm').submit(createUserCommand.send);
 
 //Bind events to DOM elements from the object
-commands.updateUserCommand.bind('#formUpdate', 'submit', function() {
+userCommands.update.bind('submit', '#formUpdate', function() {
     return $( this ).serialize(); //return the data to be passed into the Ajax call
 });
-//this will use .on (.delegate) and will call .preventDefault
+//this will use (.delegate) and will call .preventDefault
+```
+If the selected element is a `form`, takeCommand will automaticly serialize the form and pass it as the settings.data. If you are using jQuery validation, it will also ensure the form is valid before sending the request. So the above code could be simplifed to:
+
+```javascript
+userCommands.update.bind('submit', '#formUpdate');
 ```
 
 ##How commands work with tests##
@@ -68,12 +75,12 @@ When testing your JavaScript, you may not want to fire actual Ajax calls. takeCo
 //simulating a Jasmine test
 when('Ajax call was successfull', function() {
 	commands.testMode = true; //putting commands into test mode
-	addUserCommand.options.mock.wasSuccess = true; //signifying a successful Ajax request
-	addUserCommand.options.mock.responseData = {message: 'User created successfully', userId: 7}; //the fake response data that would have come from the server
+	createUserCommand.options.mock.wasSuccess = true; //signifying a successful Ajax request
+	createUserCommand.options.mock.responseData = {message: 'User created successfully', userId: 7}; //the fake response data that would have come from the server
 
 	...
 
-	addUserCommand.send(); //will be a success and fire the success and always functions. It will also pass in the defined mock.responseData object to the callbacks
+	createUserCommand.send(); //will be a success and fire the success and always functions. It will also pass in the defined mock.responseData object to the callbacks
 	
 });
 ```
