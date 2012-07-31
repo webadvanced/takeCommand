@@ -2,33 +2,31 @@
 <head>
     <title>Sample</title>
     <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
-    <script type="text/javascript" src="../src/takeCommand.js"></script>
+    <script type="text/javascript" src="../src/takeCommand.core.js"></script>
+    <script type="text/javascript" src="../src/takeCommand.utils.js"></script>
+    <script type="text/javascript" src="../src/takeCommand.events.js"></script>
+    <script type="text/javascript" src="../src/takeCommand.module.js"></script>
+    <script type="text/javascript" src="../src/takeCommand.command.js"></script>
+    <script type="text/javascript" src="../src/takeCommand.commandGroup.js"></script>
     <script type="text/javascript">
         $(function() {
-            var sendRequestOne = commands.register('sendRequestOne', {url: 'runner.html', dataType: 'HTML'});
-            sendRequestOne.success(function() {
-                console.log('I got called - request 1 : success');
-            }).always(function() {
-                console.log('I got called - request 1 : always');
-            }).error(function(){
-                console.log('I got called - request 1 : error');
-            });
-            var sendRequestTwo = commands.register('sendRequestTwo', {url: 'runner.html'});
-            sendRequestTwo.success(function(data) {
-                console.log('I got called - request 2 : done');
-            });        
 
-            commands.sendRequestTwo.always(function() {
-                console.log('I got called - request 2 : always');
-            }); 
-
-            sendRequestOne.send();
-            sendRequestOne.clearCallback('always').always(function() {
-                console.log('the new sendRequestOne : always');
-            });
-
-            $('#l1').click(sendRequestOne.send);
-            sendRequestTwo.bind('#l2', 'click');
+            var taskCommands = takeCommand.CommandGroup.init('taskCommands');
+            var userCommands = takeCommand.CommandGroup.init('userCommands');
+            //console.log(taskCommands);
+            var create = taskCommands.register('create', '/tasks/create');
+            var update = taskCommands.register('update', '/tasks/update');
+            var add = userCommands.register('add', '/user/add').always(function() {console.log('user command add - always - 1')});
+            //console.log(create);
+            create.always(function() {console.log('added new task. -1-');});
+            create.always(function() {console.log('added new task. -2-');});
+            update.always(function() {console.log('updated task. -1-');});
+            /*create.publish('success');
+            create.success();*/
+            create.send();
+            add.send();
+            //update.send();
+            //create.publish('always');
         });
     </script>
 </head>

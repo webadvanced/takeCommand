@@ -1,4 +1,5 @@
 //factory function for command
+var commands = takeCommand.CommandGroup.init('commands');
 var buildCommand = function(key, options) {
 	key = key || 'mockCommand';
 	options = options || {url: '/mock/add'};
@@ -39,24 +40,27 @@ describe('using takeCommand', function() {
 	});
 
 	describe('when binding success, error and always function to a command', function() {
-		var command = buildCommand(),
-			s = function() { },
-			e = function() { },
-			a = function() { };
+		var command = buildCommand();
 		
 		it('should set s as the success function', function() {
-			command.success( s );
-			expect( command.success ).toEqual( s );
+			var functionName;
+			command.success( function() { functionName = 's'; } );
+			command.publish( 'success' );
+			expect( functionName ).toEqual( 's' );
 		});
 
 		it('should set e as the error function', function() {
-			command.error( e );
-			expect( command.error ).toEqual( e );
+			var functionName;
+			command.error( function() { functionName = 'e'; } );
+			command.publish( 'error' );
+			expect( functionName ).toEqual( 'e' );
 		});
 
 		it('should set a as the always function', function() {
-			command.always( a );
-			expect( command.always ).toEqual( a );
+			var functionName;
+			command.always( function() { functionName = 'a'; } );
+			command.publish( 'always' );
+			expect( functionName ).toEqual( 'a' );
 		});
 	});
 
@@ -71,34 +75,34 @@ describe('using takeCommand', function() {
 		});
 
 		it('should reset to the prototype success function', function() {
-			expect(command.success).toEqual(commands.Command.prototype.success);
+			expect(command.success).toEqual(takeCommand.Command.prototype.success);
 		});
 	});
 
 	describe('when using command.bind', function() {
 		var command = buildCommand(),
 			_temp,
-			s = function(response) { _temp = response || 'called by success'; },
+			a = function(response) { _temp = response || 'called by always'; },
 			d = function() { return 'from the callback' },
 			ds = function() { return this.id; };
-		command.success(s);
+		command.always(a);
 		
 		it('should bind Ajax call to provided el and event', function() {
 			_temp = '';
-			command.bind('#theLink', 'click');
+			command.on('click', '#theLink');
 			$('#theLink').trigger('click');
-			expect(_temp).toEqual('called by success');
+			expect(_temp).toEqual('called by always');
 		});
 
 		it('should use the hash from callback as options.data', function() {
-			command.bind('#theOtherLink', 'click', d);
+			command.on('click', '#theOtherLink', d);
 			$('#theOtherLink').trigger('click');
 			expect(command.options.data).toEqual('from the callback');
 		});
 
 		it('should set the scope of the callback to the elemet', function() {
 			command = buildCommand();
-			command.bind('#theOtherOtherLink', 'click', ds);
+			command.on('click', '#theOtherOtherLink', ds);
 			$('#theOtherOtherLink').trigger('click');
 			expect(command.options.data).toEqual('theOtherOtherLink');
 		});
@@ -106,15 +110,14 @@ describe('using takeCommand', function() {
 		describe('when the el is a form and jQuery validation is included', function() {
 			it('should serialize the form and set it as options.data', function() {
 				var command = buildCommand('noValForm');
-				command.bind('#mockFormNoVal', 'submit');
+				command.on('submit', '#mockFormNoVal');
 				$('#mockFormNoVal').trigger('submit');
 				expect(command.options.data).toEqual('mockInput=MockText');
 			});
 
 			it('should not send the Ajax request if the form is not valid', function() {
-				console.log($("#mockFormVal").valid());
 				var command = buildCommand('valForm');
-				command.bind('#mockFormVal', 'submit');
+				command.on('submit', '#mockFormVal');
 				command.always(function() {});
 				spyOn(command, 'always');
 				$('#mockFormVal').trigger('submit');
@@ -124,70 +127,67 @@ describe('using takeCommand', function() {
 	});
 
 	describe('when calling send/execute', function() {
-		var command = buildCommand()
-		commands.testMode = true;
+		var command = buildCommand('sendExecute')
+			commands.testMode = true;
+			takeCommand.testMode = true;
 		describe('when the call is successfull', function() {
-			it('should call the success funtion', function() {
-				spyOn(command, 'success');
+			it('should publish all success funtions', function() {
+				var callback = jasmine.createSpy();
+				command.success(callback);
 				command.send();
-				expect(command.success).toHaveBeenCalled();
+				expect(callback).toHaveBeenCalled();
 			});
 		
-			it('should call the always funtion', function() {
-				spyOn(command, 'always');
+			it('should publish all always funtions', function() {
+				var callback = jasmine.createSpy();
+				command.always(callback);
 				command.send();
-				expect(command.always).toHaveBeenCalled();	
+				expect(callback).toHaveBeenCalled();
 			});
 		});
 		describe('when the call is not successfull', function() {
 			it('should call the error funtion', function() {
 				command.options.mock.wasSuccess = false;
-				spyOn(command, 'error');
+				var callback = jasmine.createSpy();
+				command.error(callback);
 				command.send();
-				expect(command.error).toHaveBeenCalled();
+				expect(callback).toHaveBeenCalled();
 			});
 		
-			it('should call the always funtion', function() {
-				spyOn(command, 'always');
+			it('should publish all always funtions', function() {
+				command.options.mock.wasSuccess = false;
+				var callback = jasmine.createSpy();
+				command.always(callback);
 				command.send();
-				expect(command.always).toHaveBeenCalled();	
+				expect(callback).toHaveBeenCalled();
 			});
 		});
 	});
 
 	describe('when comands.testMode is true', function() {
 		commands.testMode = true;
-		var command = buildCommand(),
-			s = function() { },
-			e = function() { },
-			a = function() { };
-		command.success(s).error(e).always(a);
+		takeCommand.testMode = true;
 		
 		it('should not send an Ajax request', function() {
+			var s = jasmine.createSpy(),
+				command = buildCommand( 'testModeTrueNoData' );
 			command.options.mock.wasSuccess = true;
-			spyOn(command, 'success');
+			command.success( s );
 			command.send();
-			expect(command.success).toHaveBeenCalled();
+			expect( s ).toHaveBeenCalled();
 		});
 		
 		it('should pass mock.data to callbacks', function() {
-			var mockData = { message: 'this is a success message' };
+			var mockData = { message: 'this is a always message' },
+				a = function(response) { _temp = response.message ;},
+				command = buildCommand( 'testModeTrueWithData' ),
+				_temp;
 			command.options.mock.wasSuccess = true;
 			command.options.mock.responseData = mockData;
-			spyOn(command, 'success');
+			command.always( a );
 			command.send();
-			expect(command.success).toHaveBeenCalledWith( mockData );
+			
+			expect( _temp ).toEqual( 'this is a always message' );
 		});
 	});
-
-	describe('when commands.useSignals is true', function() {
-		it('should wire up signal broadcasts for all callbacks', function() {
-			commands.useSignals = true;
-			var command = buildCommand();
-			expect(command.success.toString()).toContain('broadcast');
-			expect(command.error.toString()).toContain('broadcast');
-			expect(command.always.toString()).toContain('broadcast');
-		});
-	});
-
 });
