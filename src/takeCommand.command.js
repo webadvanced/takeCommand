@@ -56,7 +56,7 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
                 data = self.options.data,
                 $form,
                 shouldProcess = true;
-            $( 'body' ).on( events, selectors, function( evt ) {
+            $( 'body' ).delegate( selectors, events, function( evt ) {
                 evt.preventDefault();
 
                 //if the selected element is a form, wrap it with jQuery and set the $form variable

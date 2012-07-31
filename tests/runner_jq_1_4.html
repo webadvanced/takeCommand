@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <title>take command specs</title>
+
+  <link rel="stylesheet" type="text/css" href="jasmine-1.2.0/jasmine.css">
+</head>
+
+<body>
+  <div style="position:absolute;top:-1000px">
+    <a id="theLink" href="#"></a>
+    <a id="theOtherLink" href="#"></a>
+    <a id="theOtherOtherLink" href="#"></a>
+    <form action="/foo" method="POST" id="mockFormNoVal">
+      <input type="text" name="mockInput" value="MockText" id="mockInput" />
+      <input type="submit" />
+    </form>​
+    <form id="mockFormVal">
+      <label for="field">Required: </label>
+      <input class="left" id="field" name="field" />
+      <br/>
+      <input type="submit" value="Validate!" />
+    </form>
+  </div>
+  <script type="text/javascript" src="jasmine-1.2.0/jasmine.js"></script>
+  <script type="text/javascript" src="jasmine-1.2.0/jasmine-html.js"></script>
+  <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.4.3.min.js"></script>
+  <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
+  <script type="text/javascript" src="https://raw.github.com/webadvanced/signals.js/master/signals.min.js"></script>
+  <script type="text/javascript" src="../src/takeCommand.core.js"></script>
+  <script type="text/javascript" src="../src/takeCommand.utils.js"></script>
+  <script type="text/javascript" src="../src/takeCommand.events.js"></script>
+  <script type="text/javascript" src="../src/takeCommand.module.js"></script>
+  <script type="text/javascript" src="../src/takeCommand.command.js"></script>
+  <script type="text/javascript" src="../src/takeCommand.commandGroup.js"></script>
+  <!--<script type="text/javascript" src="../take-command.min.js"></script>-->
+  <script type="text/javascript" src="specs.js"></script>
+    <script type="text/javascript">
+        
+    $("#mockFormVal").validate({
+      rules: { field: "required" }
+    });
+    (function() {
+      var jasmineEnv = jasmine.getEnv();
+      jasmineEnv.updateInterval = 1000;
+
+      var htmlReporter = new jasmine.HtmlReporter();
+
+      jasmineEnv.addReporter(htmlReporter);
+
+      jasmineEnv.specFilter = function(spec) {
+        return htmlReporter.specFilter(spec);
+      };
+
+      var currentWindowOnload = window.onload;
+
+      window.onload = function() {
+        if (currentWindowOnload) {
+          currentWindowOnload();
+        }
+        execJasmine();
+      };
+
+      function execJasmine() {
+        jasmineEnv.execute();
+      }
+
+    })();
+  </script>
+</body>
+</html>
