@@ -31,7 +31,7 @@
             };
         }
     };
-    
+
     if( !exports.takeCommand ) {
         exports.takeCommand = takeCommand;
     }
