@@ -9,10 +9,20 @@
     <script type="text/javascript" src="../src/takeCommand.command.js"></script>
     <script type="text/javascript" src="../src/takeCommand.commandGroup.js"></script>
     <script type="text/javascript">
-        $(function() {
+        var onRegister = function() {
+            console.log( 'beforeregister : ' + this.key );
+        };
 
+        var registered = function() {
+            console.log( 'registered : ' + this.key );
+        };
+
+        $(function() {
             var taskCommands = takeCommand.CommandGroup.init('taskCommands');
             var userCommands = takeCommand.CommandGroup.init('userCommands');
+
+            taskCommands.subscribe( 'beforeregister', onRegister );
+            taskCommands.subscribe( 'afterregister', registered );
             //console.log(taskCommands);
             var create = taskCommands.register('create', '/tasks/create');
             var update = taskCommands.register('update', '/tasks/update');

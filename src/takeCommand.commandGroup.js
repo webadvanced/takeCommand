@@ -8,13 +8,15 @@ window.takeCommand.CommandGroup = ( function( takeCommand, $ ) {
             takeCommand.groups[key] = this;
         },
         initialized: function() {
-            //send event
+            this.publish( 'initialized' );
         },
         register: function( key, options ) {
-            //send event before
+            this.publish( key + ':beforeregister' );
+            this.publish( 'beforeregister' );
             var command = takeCommand.Command.init( key, options, this );
             this[key] = command;
-            //send event after
+            this.publish( key + ':afterregister', command );
+            this.publish( 'afterregister' );
             return command;
         }
     });
