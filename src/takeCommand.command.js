@@ -46,7 +46,6 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
                     $.ajax( this.options );
                 }
             }));
-            
         },
         send: function( data ) {
             this.publish( 'send', data);

@@ -21,8 +21,8 @@
             var taskCommands = takeCommand.CommandGroup.init('taskCommands');
             var userCommands = takeCommand.CommandGroup.init('userCommands');
 
-            taskCommands.subscribe( 'beforeregister', onRegister );
-            taskCommands.subscribe( 'afterregister', registered );
+            taskCommands.subscribe( 'beforeRegister', onRegister );
+            taskCommands.subscribe( 'afterRegister', registered );
             //console.log(taskCommands);
             var create = taskCommands.register('create', '/tasks/create');
             var update = taskCommands.register('update', '/tasks/update');

@@ -11,12 +11,11 @@ window.takeCommand.CommandGroup = ( function( takeCommand, $ ) {
             this.publish( 'initialized' );
         },
         register: function( key, options ) {
-            this.publish( key + ':beforeregister' );
-            this.publish( 'beforeregister' );
+            this.publish( 'beforeRegister' );
             var command = takeCommand.Command.init( key, options, this );
             this[key] = command;
-            this.publish( key + ':afterregister', command );
-            this.publish( 'afterregister' );
+            this.publish( key + ':afterRegister', command );
+            this.publish( 'afterRegister' );
             return command;
         }
     });

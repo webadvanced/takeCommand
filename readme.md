@@ -70,11 +70,12 @@ userCommands.update.bind('submit', '#formUpdate');
 ```
 
 ##How Take Command work with tests##
-When testing your JavaScript, you may not want to fire actual Ajax calls. takeCommand allows you to put your commands in test mode. You can set a flag to identify whether the Ajax call was a success or fail as well as provide mock response data.
+When testing your JavaScript, you may not want to fire actual Ajax calls. takeCommand allows you to put your all your commands in test mode or just specific CommandGroups. You can set a flag to identify whether the Ajax call was a success or fail as well as provide mock response data.
 ```javascript
 //simulating a Jasmine test
 when('Ajax call was successfull', function() {
-	commands.testMode = true; //putting commands into test mode
+	commands.testMode = true; //putting all commands into test mode
+	//userCommands.testMode = true; //putting just commands registerd with userCommand in testMode
 	createUserCommand.options.mock.wasSuccess = true; //signifying a successful Ajax request
 	createUserCommand.options.mock.responseData = {message: 'User created successfully', userId: 7}; //the fake response data that would have come from the server
 
