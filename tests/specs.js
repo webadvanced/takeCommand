@@ -64,11 +64,11 @@ describe('using takeCommand', function() {
 		});
 	});
 
-	describe('when using clearCallback', function() {
+	describe('when using clear', function() {
 		var command = buildCommand(),
 			s = function() { };
 		command.success(s);
-		command.clearCallback('success');
+		command.clear('success');
 
 		it('should unbind success function', function() {
 			expect(command.success).not.toEqual(s);

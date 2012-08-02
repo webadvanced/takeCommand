@@ -24,10 +24,10 @@
             taskCommands.subscribe( 'beforeRegister', onRegister );
             taskCommands.subscribe( 'afterRegister', registered );
             //console.log(taskCommands);
-            var create = taskCommands.register('create', '/tasks/create');
+            var create = taskCommands.register('create', { url: '/tasks/create', type: 'POST' });
             var update = taskCommands.register('update', '/tasks/update');
             var add = userCommands.register('add', '/user/add').always(function() {console.log('user command add - always - 1')});
-            //console.log(create);
+            console.log(create);
             create.always(function() {console.log('added new task. -1-');});
             create.always(function() {console.log('added new task. -2-');});
             update.always(function() {console.log('updated task. -1-');});

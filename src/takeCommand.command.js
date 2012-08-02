@@ -17,8 +17,9 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
                 options = { url: options };
             }
             this.key = key;
-            this.options =  $.extend( options, _defaultOptions );
             this.group = group;
+            this.options = {};
+            $.extend( this.options, _defaultOptions, options );
         },
         initialized: function() {
             this.subscribe( 'send', this.proxy(function( data ) {
