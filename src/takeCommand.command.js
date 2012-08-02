@@ -26,6 +26,7 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
                 if( data && !data.currentTarget ) {
                     this.options.data = data;
                 }
+                this.publish( 'before' );
                 if( this.group.testMode || takeCommand.testMode ) {
                     var mock = this.options.mock;
                     if( mock.wasSuccess ) {
@@ -84,12 +85,18 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
             });
             return this;
         },
+        before: function( func ) {
+            if( func && _utils.isFunction( func ) ) {
+                this.wrap( func, 'before' );
+            }
+            return this;
+        },
         success: function( func ) {
             if( func && _utils.isFunction( func ) ) {
                 this.wrap( func, 'success' );
             }
             return this;
-        },    
+        },
         always: function( func ) {
             if( func && _utils.isFunction( func ) ) {
                 this.wrap( func, 'always' );
