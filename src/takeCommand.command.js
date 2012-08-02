@@ -36,14 +36,14 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
                     }
                     this.publish( 'always',  mock.responseData );
                 } else {
-                    this.options.success = this.proxy( function() {
-                        this.publish( 'success' );
+                    this.options.success = this.proxy( function( data, textStatus, jqXHR ) {
+                        this.publish( 'success', data, textStatus, jqXHR );
                     });
-                    this.options.error =  this.proxy( function() {
-                        this.publish( 'error' );
+                    this.options.error =  this.proxy( function( jqXHR, textStatus, errorThrown ) {
+                        this.publish( 'error', jqXHR, textStatus, errorThrown );
                     });
-                    this.complete = this.proxy( function() {
-                        this.publish( 'always' );
+                    this.complete = this.proxy( function( jqXHR, textStatus ) {
+                        this.publish( 'always', jqXHR, textStatus );
                     });
                     $.ajax( this.options );
                 }
