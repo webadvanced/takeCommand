@@ -115,8 +115,10 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
         subscribe: function( events, callback ) {
             this.parent.subscribe( events, callback, this.eventKey() );
         },
-        publish: function( event, args ) {
-            this.parent.publish( this.parent.keyEvent( event, this.eventKey() ), args );
+        publish: function() {
+            var args = _utils.makeArray( arguments );
+            args[0] = this.parent.keyEvent( args[0], this.eventKey() );
+            this.parent.publish.apply( this.parent, args );
         },
         clear: function( event ) {
             this.parent.forget( this.parent.keyEvent( event, this.eventKey() ) );

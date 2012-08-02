@@ -15,16 +15,16 @@ window.takeCommand.Events = ( function( utils ) {
             var args = utils.makeArray( arguments ),
                 evt = args.shift(),
                 calls = this.subscribers,
-                list = calls[evt];
+                list = calls[evt],
+                ctx = args['ctx'];
             if( !calls ) {
                 return false;
             }
             if( !list ) {
                 return false;
             }
-
             utils.each( list, this.proxy( function( func, i ) {
-                if( func.apply( this, args ) === false ) {
+                if( func.apply( ctx || this, args ) === false ) {
                     return false;
                 }
             }));
