@@ -8,7 +8,7 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
         },
         _utils = takeCommand.utils,
         _checkArg = _utils.chkArg;
-    Command.extend(takeCommand.Events);
+    Command.extend( takeCommand.Events );
     Command.include({
         init: function( key, options, group ) {
             _checkArg.isNotFalsy( key, 'command key' );
@@ -22,7 +22,7 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
             $.extend( this.options, _defaultOptions, options );
         },
         initialized: function() {
-            this.subscribe( 'send', this.proxy(function( data ) {
+            this.subscribe( 'send', this.proxy( function( data ) {
                 if( data && !data.currentTarget ) {
                     this.options.data = data;
                 }
@@ -85,7 +85,7 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
                      data = $form.serialize();
                 }
 
-                data = ( _utils.isFunction( func ) ) ? func.apply(this, arguments) : data;
+                data = ( _utils.isFunction( func ) ) ? func.apply( this, arguments ) : data;
                 self.options.ctx = this;
                 self.send( data );
             });
@@ -128,7 +128,7 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
                 newArgs = [],
                 n = 0,
                 tmp;
-            if(l === 1) {
+            if( l === 1 ) {
                 l++;
             }
             for( ; i < l; i++, n++ ) {

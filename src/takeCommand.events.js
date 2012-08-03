@@ -52,7 +52,7 @@ window.takeCommand.Events = ( function( utils ) {
             }
             utils.each( list, this.proxy( function( func, i ) {
                 if( callback === func ) {
-                    list.splice(i, 1);
+                    list.splice( i, 1 );
                     return false;
                 }
             }));

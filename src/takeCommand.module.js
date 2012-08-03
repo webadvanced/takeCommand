@@ -1,4 +1,4 @@
-window.takeCommand.Module = ( function(takeCommand, $ ) {
+window.takeCommand.Module = ( function( takeCommand, $ ) {
     "use strict";
     var Module, 
         moduleKeywords = ['included', 'extended'],
