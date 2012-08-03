@@ -8,7 +8,7 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
         },
         _utils = takeCommand.utils,
         _checkArg = _utils.chkArg;
-    Command.extend(takeCommand.Events);
+    Command.extend( takeCommand.Events );
     Command.include({
         init: function( key, options, group ) {
             _checkArg.isNotFalsy( key, 'command key' );
@@ -17,14 +17,16 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
                 options = { url: options };
             }
             this.key = key;
-            this.options =  $.extend( options, _defaultOptions );
             this.group = group;
+            this.options = {};
+            $.extend( this.options, _defaultOptions, options );
         },
         initialized: function() {
-            this.subscribe( 'send', this.proxy(function( data ) {
+            this.subscribe( 'send', this.proxy( function( data ) {
                 if( data && !data.currentTarget ) {
                     this.options.data = data;
                 }
+                this.publish( 'before' );
                 if( this.group.testMode || takeCommand.testMode ) {
                     var mock = this.options.mock;
                     if( mock.wasSuccess ) {
@@ -35,21 +37,26 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
                     this.publish( 'always',  mock.responseData );
                 } else {
                     this.options.success = this.proxy( function() {
-                        this.publish( 'success' );
+                        var args = _utils.makeArray( arguments );
+                        args.unshift( 'success' );
+                        this.publish.apply( this, args );
                     });
                     this.options.error =  this.proxy( function() {
-                        this.publish( 'error' );
+                        var args = _utils.makeArray( arguments );
+                        args.unshift( 'error' );
+                        this.publish.apply( this, args );
                     });
-                    this.complete = this.proxy( function() {
-                        this.publish( 'always' );
+                    this.options.complete = this.proxy( function() {
+                        var args = _utils.makeArray( arguments );
+                        args.unshift( 'always' );
+                        this.publish.apply( this, args );
                     });
                     $.ajax( this.options );
                 }
             }));
-            
         },
         send: function( data ) {
-            this.publish( 'send', data);
+            this.publish( 'send', data );
         },
         on: function( events, selectors, func ) {
             var self = this,
@@ -78,10 +85,16 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
                      data = $form.serialize();
                 }
 
-                data = ( _utils.isFunction( func ) ) ? func.apply(this, arguments) : data;
-
-                self.publish( 'send', data );
+                data = ( _utils.isFunction( func ) ) ? func.apply( this, arguments ) : data;
+                self.options.ctx = this;
+                self.send( data );
             });
+            return this;
+        },
+        before: function( func ) {
+            if( func && _utils.isFunction( func ) ) {
+                this.wrap( func, 'before' );
+            }
             return this;
         },
         success: function( func ) {
@@ -89,7 +102,7 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
                 this.wrap( func, 'success' );
             }
             return this;
-        },    
+        },
         always: function( func ) {
             if( func && _utils.isFunction( func ) ) {
                 this.wrap( func, 'always' );
@@ -103,13 +116,33 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
             return this;
         },
         wrap: function( func, eventName ) {
-            this.subscribe( eventName, this.proxy( func ) );
+            this.subscribe( eventName, func );
         },
         subscribe: function( events, callback ) {
             this.parent.subscribe( events, callback, this.eventKey() );
         },
-        publish: function( event, args ) {
-            this.parent.publish( this.parent.keyEvent( event, this.eventKey() ), args );
+        publish: function() {            
+            var args = _utils.makeArray( arguments ),
+                i = 0,
+                l = arguments.length,
+                newArgs = [],
+                n = 0,
+                tmp;
+            if( l === 1 ) {
+                l++;
+            }
+            for( ; i < l; i++, n++ ) {
+                tmp = args[i];
+                if( i === 0 ) {
+                    tmp = this.parent.keyEvent( args[0], this.eventKey() );        
+                }
+                if( i === 1) {
+                    newArgs[n] = this.options.ctx || this;
+                    n++;
+                }
+                newArgs[n] = tmp;
+            }
+            this.parent.publish.apply( this.parent, newArgs );
         },
         clear: function( event ) {
             this.parent.forget( this.parent.keyEvent( event, this.eventKey() ) );

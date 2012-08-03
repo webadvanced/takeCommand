@@ -1,4 +1,4 @@
-window.takeCommand.Module = ( function(takeCommand, $ ) {
+window.takeCommand.Module = ( function( takeCommand, $ ) {
     "use strict";
     var Module, 
         moduleKeywords = ['included', 'extended'],
@@ -35,15 +35,11 @@ window.takeCommand.Module = ( function(takeCommand, $ ) {
             }
             return this;
         },
-        proxy: function(func) {
+        proxy: function( func ) {
             _checkArg.isNotUndefined( func );
             var localScope = this;
             return ( function() {
-                var args = _utils.makeArray( arguments );
-                if( args.length > 0 && args[0] && args[0].target !== 'undefined' ) {
-                    args.push( $( args[0].target ) );
-                }
-                func.apply( localScope, args );
+                func.apply( localScope, arguments );
             });
         },
         proxyAll: function(){

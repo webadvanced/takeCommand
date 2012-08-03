@@ -9,22 +9,35 @@
     <script type="text/javascript" src="../src/takeCommand.command.js"></script>
     <script type="text/javascript" src="../src/takeCommand.commandGroup.js"></script>
     <script type="text/javascript">
-        $(function() {
+        var onRegister = function() {
+            //console.log( 'beforeregister : ' + this.key );
+        };
 
+        var registered = function() {
+            //console.log( 'registered : ' + this.key );
+        };
+
+        $(function() {
             var taskCommands = takeCommand.CommandGroup.init('taskCommands');
             var userCommands = takeCommand.CommandGroup.init('userCommands');
+
+            taskCommands.subscribe( 'beforeRegister', onRegister );
+            taskCommands.subscribe( 'afterRegister', registered );
             //console.log(taskCommands);
-            var create = taskCommands.register('create', '/tasks/create');
-            var update = taskCommands.register('update', '/tasks/update');
+            var create = taskCommands.register('create', { url: '/tasks/create', type: 'POST' });
+            var update = taskCommands.register('update', '/tasks/update').on('click', '#l1');
             var add = userCommands.register('add', '/user/add').always(function() {console.log('user command add - always - 1')});
             //console.log(create);
-            create.always(function() {console.log('added new task. -1-');});
-            create.always(function() {console.log('added new task. -2-');});
-            update.always(function() {console.log('updated task. -1-');});
+            create.always(function() {console.log('create:always new task. -1-');});
+            create.always(function() {console.log('create:always new task. -2-');});
+            //update.always(function() {console.log('updated:always task. -1-');});
+            update.always(function() {console.log('update:always:called');});
+            update.error(function() {console.log(this);});
+            update.success(function() {console.log(this);});
             /*create.publish('success');
             create.success();*/
             create.send();
-            add.send();
+            //add.send();
             //update.send();
             //create.publish('always');
         });

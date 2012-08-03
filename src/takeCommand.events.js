@@ -14,6 +14,7 @@ window.takeCommand.Events = ( function( utils ) {
         publish: function() {
             var args = utils.makeArray( arguments ),
                 evt = args.shift(),
+                ctx = args.shift(),
                 calls = this.subscribers,
                 list = calls[evt];
             if( !calls ) {
@@ -22,12 +23,10 @@ window.takeCommand.Events = ( function( utils ) {
             if( !list ) {
                 return false;
             }
-
-            utils.each( list, this.proxy( function( func, i ) {
-                if( func.apply( this, args ) === false ) {
-                    return false;
-                }
-            }));
+            ctx = ctx || this;
+            utils.each( list, function( func, i ) {
+                func.apply( ctx, args );
+            });
             return true;
         },
         forget: function( evt, callback, key ) {
@@ -53,7 +52,7 @@ window.takeCommand.Events = ( function( utils ) {
             }
             utils.each( list, this.proxy( function( func, i ) {
                 if( callback === func ) {
-                    list.splice(i, 1);
+                    list.splice( i, 1 );
                     return false;
                 }
             }));
