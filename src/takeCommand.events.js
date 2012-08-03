@@ -14,20 +14,19 @@ window.takeCommand.Events = ( function( utils ) {
         publish: function() {
             var args = utils.makeArray( arguments ),
                 evt = args.shift(),
+                ctx = args.shift(),
                 calls = this.subscribers,
-                list = calls[evt],
-                ctx = args['ctx'];
+                list = calls[evt];
             if( !calls ) {
                 return false;
             }
             if( !list ) {
                 return false;
             }
-            utils.each( list, this.proxy( function( func, i ) {
-                if( func.apply( ctx || this, args ) === false ) {
-                    return false;
-                }
-            }));
+            ctx = ctx || this;
+            utils.each( list, function( func, i ) {
+                func.apply( ctx, args );
+            });
             return true;
         },
         forget: function( evt, callback, key ) {

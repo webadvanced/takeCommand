@@ -36,21 +36,27 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
                     }
                     this.publish( 'always',  mock.responseData );
                 } else {
-                    this.options.success = this.proxy( function( data, textStatus, jqXHR ) {
-                        this.publish( 'success', data, textStatus, jqXHR );
+                    this.options.success = this.proxy( function() {
+                        var args = _utils.makeArray( arguments );
+                        args.unshift( 'success' );
+                        this.publish.apply( this, args );
                     });
-                    this.options.error =  this.proxy( function( jqXHR, textStatus, errorThrown ) {
-                        this.publish( 'error', jqXHR, textStatus, errorThrown );
+                    this.options.error =  this.proxy( function() {
+                        var args = _utils.makeArray( arguments );
+                        args.unshift( 'error' );
+                        this.publish.apply( this, args );
                     });
-                    this.complete = this.proxy( function( jqXHR, textStatus ) {
-                        this.publish( 'always', jqXHR, textStatus );
+                    this.options.complete = this.proxy( function() {
+                        var args = _utils.makeArray( arguments );
+                        args.unshift( 'always' );
+                        this.publish.apply( this, args );
                     });
                     $.ajax( this.options );
                 }
             }));
         },
         send: function( data ) {
-            this.publish( 'send', data);
+            this.publish( 'send', data );
         },
         on: function( events, selectors, func ) {
             var self = this,
@@ -80,8 +86,8 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
                 }
 
                 data = ( _utils.isFunction( func ) ) ? func.apply(this, arguments) : data;
-
-                self.publish( 'send', data );
+                self.options.ctx = this;
+                self.send( data );
             });
             return this;
         },
@@ -110,15 +116,33 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
             return this;
         },
         wrap: function( func, eventName ) {
-            this.subscribe( eventName, this.proxy( func ) );
+            this.subscribe( eventName, func );
         },
         subscribe: function( events, callback ) {
             this.parent.subscribe( events, callback, this.eventKey() );
         },
-        publish: function() {
-            var args = _utils.makeArray( arguments );
-            args[0] = this.parent.keyEvent( args[0], this.eventKey() );
-            this.parent.publish.apply( this.parent, args );
+        publish: function() {            
+            var args = _utils.makeArray( arguments ),
+                i = 0,
+                l = arguments.length,
+                newArgs = [],
+                n = 0,
+                tmp;
+            if(l === 1) {
+                l++;
+            }
+            for( ; i < l; i++, n++ ) {
+                tmp = args[i];
+                if( i === 0 ) {
+                    tmp = this.parent.keyEvent( args[0], this.eventKey() );        
+                }
+                if( i === 1) {
+                    newArgs[n] = this.options.ctx || this;
+                    n++;
+                }
+                newArgs[n] = tmp;
+            }
+            this.parent.publish.apply( this.parent, newArgs );
         },
         clear: function( event ) {
             this.parent.forget( this.parent.keyEvent( event, this.eventKey() ) );
