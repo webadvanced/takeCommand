@@ -31,7 +31,7 @@
             create.always(function() {console.log('create:always new task. -1-');});
             create.always(function() {console.log('create:always new task. -2-');});
             //update.always(function() {console.log('updated:always task. -1-');});
-            update.always(function() {console.log(this);});
+            update.always(function() {console.log('update:always:called');});
             update.error(function() {console.log(this);});
             update.success(function() {console.log(this);});
             /*create.publish('success');
