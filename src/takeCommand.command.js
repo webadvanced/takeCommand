@@ -13,9 +13,6 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
         init: function( key, options, group ) {
             _checkArg.isNotFalsy( key, 'command key' );
             _checkArg.isNotFalsy( options, 'command options' );
-            if( typeof options === 'string' ) {
-                options = { url: options };
-            }
             this.key = key;
             this.group = group;
             this.options = {};

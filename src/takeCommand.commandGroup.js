@@ -12,9 +12,14 @@ window.takeCommand.CommandGroup = ( function( takeCommand, $ ) {
         },
         register: function( key, options, type ) {
             this.publish( 'beforeRegister' );
+            if( typeof options === 'string' ) {
+                options = { url: options };
+            }
+
             if( type ) {
                 options.type = type;
             }
+            
             var command = takeCommand.Command.init( key, options, this );
             this[key] = command;
             this.publish( key + ':afterRegister', command );
