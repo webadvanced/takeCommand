@@ -10,8 +10,11 @@ window.takeCommand.CommandGroup = ( function( takeCommand, $ ) {
         initialized: function() {
             this.publish( 'initialized' );
         },
-        register: function( key, options ) {
+        register: function( key, options, type ) {
             this.publish( 'beforeRegister' );
+            if( type ) {
+                options.type = type;
+            }
             var command = takeCommand.Command.init( key, options, this );
             this[key] = command;
             this.publish( key + ':afterRegister', command );
