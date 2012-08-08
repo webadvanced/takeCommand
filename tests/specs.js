@@ -79,7 +79,7 @@ describe('using takeCommand', function() {
 		});
 	});
 
-	describe('when using command.bind', function() {
+	describe('when using command.on', function() {
 		var command = buildCommand(),
 			_temp,
 			a = function(response) { _temp = response || 'called by always'; },

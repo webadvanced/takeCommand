@@ -38,21 +38,18 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
                         args.unshift( 'success' );
                         this.publish.apply( this, args );
                         arguments.length = 0;
-                        args.length = 0;
                     });
                     this.options.error =  this.proxy( function() {
                         var args = _utils.makeArray( arguments );
                         args.unshift( 'error' );
                         this.publish.apply( this, args );
                         arguments.length = 0;
-                        args.length = 0;
                     });
                     this.options.complete = this.proxy( function() {
                         var args = _utils.makeArray( arguments );
                         args.unshift( 'always' );
                         this.publish.apply( this, args );
                         arguments.length = 0;
-                        args.length = 0;
                     });
                     $.ajax( this.options );
                 }
@@ -146,6 +143,8 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
                 newArgs[n] = tmp;
             }
             this.parent.publish.apply( this.parent, newArgs );
+            arguments.length = 0;
+            args.length = 0;
         },
         clear: function( event ) {
             this.parent.forget( this.parent.keyEvent( event, this.eventKey() ) );
