@@ -37,16 +37,22 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
                         var args = _utils.makeArray( arguments );
                         args.unshift( 'success' );
                         this.publish.apply( this, args );
+                        arguments.length = 0;
+                        args.length = 0;
                     });
                     this.options.error =  this.proxy( function() {
                         var args = _utils.makeArray( arguments );
                         args.unshift( 'error' );
                         this.publish.apply( this, args );
+                        arguments.length = 0;
+                        args.length = 0;
                     });
                     this.options.complete = this.proxy( function() {
                         var args = _utils.makeArray( arguments );
                         args.unshift( 'always' );
                         this.publish.apply( this, args );
+                        arguments.length = 0;
+                        args.length = 0;
                     });
                     $.ajax( this.options );
                 }
