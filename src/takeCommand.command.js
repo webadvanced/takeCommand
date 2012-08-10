@@ -58,6 +58,9 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
         send: function( data ) {
             this.publish( 'send', data );
         },
+        execute: function( data ) {
+            this.publish( 'send', data );  
+        },
         on: function( events, selectors, func ) {
             var self = this,
                 data = self.options.data,
