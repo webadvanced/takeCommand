@@ -59,7 +59,7 @@ createUserCommand.send( {name: 'Sarah Smith'} );
 $('#addUserForm').submit(createUserCommand.send);
 
 //Bind events to DOM elements from the object
-userCommands.update.bind('submit', '#formUpdate', function() {
+userCommands.update.on('submit', '#formUpdate', function() {
     return $( this ).serialize(); //return the data to be passed into the Ajax call
 });
 //this will use (.delegate) and will call .preventDefault
@@ -67,7 +67,8 @@ userCommands.update.bind('submit', '#formUpdate', function() {
 If the selected element is a `form`, takeCommand will automaticly serialize the form and pass it as the settings.data. If you are using jQuery validation, it will also ensure the form is valid before sending the request. So the above code could be simplifed to:
 
 ```javascript
-userCommands.update.bind('submit', '#formUpdate');
+userCommands.update.on('submit', '#formUpdate');
+//.on(event(s), selector [, parentSelector],[, dataHandler])
 ```
 
 ##How Take Command work with tests##
