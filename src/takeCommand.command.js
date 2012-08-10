@@ -13,9 +13,6 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
         init: function( key, options, group ) {
             _checkArg.isNotFalsy( key, 'command key' );
             _checkArg.isNotFalsy( options, 'command options' );
-            if( typeof options === 'string' ) {
-                options = { url: options };
-            }
             this.key = key;
             this.group = group;
             this.options = {};
@@ -38,18 +35,24 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
                 } else {
                     this.options.success = this.proxy( function() {
                         var args = _utils.makeArray( arguments );
+                        arguments.length = 0;
                         args.unshift( 'success' );
                         this.publish.apply( this, args );
+                        args.length = 0;
                     });
                     this.options.error =  this.proxy( function() {
                         var args = _utils.makeArray( arguments );
+                        arguments.length = 0;
                         args.unshift( 'error' );
                         this.publish.apply( this, args );
+                        args.length = 0;
                     });
                     this.options.complete = this.proxy( function() {
                         var args = _utils.makeArray( arguments );
+                        arguments.length = 0;
                         args.unshift( 'always' );
                         this.publish.apply( this, args );
+                        args.length = 0;
                     });
                     $.ajax( this.options );
                 }
@@ -58,12 +61,20 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
         send: function( data ) {
             this.publish( 'send', data );
         },
-        on: function( events, selectors, func ) {
+        execute: function( data ) {
+            this.publish( 'send', data );  
+        },
+        on: function( events, selectors, scope, func ) {
             var self = this,
                 data = self.options.data,
                 $form,
                 shouldProcess = true;
-            $( 'body' ).delegate( selectors, events, function( evt ) {
+            if( _utils.isFunction( scope ) ) {
+                func = scope;
+                scope = 'body';
+            }
+            scope = scope || 'body';
+            $( scope ).delegate( selectors, events, function( evt ) {
                 evt.preventDefault();
 
                 //if the selected element is a form, wrap it with jQuery and set the $form variable
@@ -143,6 +154,8 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
                 newArgs[n] = tmp;
             }
             this.parent.publish.apply( this.parent, newArgs );
+            arguments.length = 0;
+            args.length = 0;
         },
         clear: function( event ) {
             this.parent.forget( this.parent.keyEvent( event, this.eventKey() ) );

@@ -25,7 +25,7 @@
             taskCommands.subscribe( 'afterRegister', registered );
             //console.log(taskCommands);
             var create = taskCommands.register('create', { url: '/tasks/create', type: 'POST' });
-            var update = taskCommands.register('update', '/tasks/update').on('click', '#l1');
+            var update = taskCommands.register('update', '/tasks/update', 'POST').on('click', '#l1');
             var add = userCommands.register('add', '/user/add').always(function() {console.log('user command add - always - 1')});
             //console.log(create);
             create.always(function() {console.log('create:always new task. -1-');});

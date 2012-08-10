@@ -79,7 +79,7 @@ describe('using takeCommand', function() {
 		});
 	});
 
-	describe('when using command.bind', function() {
+	describe('when using command.on', function() {
 		var command = buildCommand(),
 			_temp,
 			a = function(response) { _temp = response || 'called by always'; },
@@ -122,6 +122,20 @@ describe('using takeCommand', function() {
 				spyOn(command, 'always');
 				$('#mockFormVal').trigger('submit');
 				expect(command.always).not.toHaveBeenCalled();
+			});
+		});
+
+		describe('when using different overloads', function() {
+			it('should set the default scope to the body el if not provided', function() {
+				var command = buildCommand('body-scope');
+				command.on('click', '#elBodyDefault');
+				expect($('body').data('events').live[5].namespace).toEqual('#elBodyDefault.click');
+			});
+
+			it('should set scope to #wrapper when provided as the 3rd arg', function() {
+				var command = buildCommand('someWrapper');
+				command.on('click', '#el', '#wrapper');
+				expect($('#wrapper').data('events').live[0].namespace).toEqual('#el.click');
 			});
 		});
 	});
