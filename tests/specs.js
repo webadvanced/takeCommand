@@ -124,6 +124,20 @@ describe('using takeCommand', function() {
 				expect(command.always).not.toHaveBeenCalled();
 			});
 		});
+
+		describe('when using different overloads', function() {
+			it('should set the default scope to the body el if not provided', function() {
+				var command = buildCommand('body-scope');
+				command.on('click', '#elBodyDefault');
+				expect($('body').data('events').live[5].namespace).toEqual('#elBodyDefault.click');
+			});
+
+			it('should set scope to #wrapper when provided as the 3rd arg', function() {
+				var command = buildCommand('someWrapper');
+				command.on('click', '#el', '#wrapper');
+				expect($('#wrapper').data('events').live[0].namespace).toEqual('#el.click');
+			});
+		});
 	});
 
 	describe('when calling send/execute', function() {
