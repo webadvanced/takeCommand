@@ -36,7 +36,7 @@ createUserCommand.success( function() {
 }).error( function() {
     alert('there was a problem');
 }).always(function() {
-    //clear form fields
+    alert('this is always called after success or error is complete!');
 });
 
 //getting the reference to a specific command from the commands hash
