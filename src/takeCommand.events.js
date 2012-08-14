@@ -8,7 +8,7 @@ window.takeCommand.Events = ( function( utils ) {
                 if( key ) {
                     ev = this.keyEvent( ev, key );
                 }
-                ( this.subscribers[ev] || ( this.subscribers[ev] = [] ) ).push( callback );
+                ( this.subscribers[ ev ] || ( this.subscribers[ ev ] = [] ) ).push( callback );
             }));
         },
         publish: function() {
@@ -16,7 +16,7 @@ window.takeCommand.Events = ( function( utils ) {
                 evt = args.shift(),
                 ctx = args.shift(),
                 calls = this.subscribers,
-                list = calls[evt];
+                list = calls[ evt ];
             if( !calls ) {
                 return false;
             }
@@ -38,7 +38,7 @@ window.takeCommand.Events = ( function( utils ) {
                 evt = this.keyEvent( evt, key );
             }
             var calls = this.subscribers,
-                list = calls[evt];
+                list = calls[ evt ];
             if( !calls ) {
                 return false;
             }
@@ -47,7 +47,7 @@ window.takeCommand.Events = ( function( utils ) {
             }
 
             if( !callback ) {
-                delete this.subscribers[evt];
+                delete this.subscribers[ evt ];
                 return this;
             }
             utils.each( list, this.proxy( function( func, i ) {

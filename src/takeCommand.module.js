@@ -14,7 +14,7 @@ window.takeCommand.Module = ( function( takeCommand, $ ) {
         extend: function( obj ) {
             for( var key in obj ) {
                 if ( moduleKeywords.indexOf( key ) === -1 ) {
-                    this[key] = obj[key];
+                    this[ key ] = obj[ key ];
                 }
             }
             var extended = obj.extended;
@@ -26,7 +26,7 @@ window.takeCommand.Module = ( function( takeCommand, $ ) {
         include: function( obj ) {
             for( var key in obj ) {
                 if( moduleKeywords.indexOf( key ) === -1 ) {
-                    this.prototype[key] = obj[key];
+                    this.prototype[ key ] = obj[ key ];
                 }
             }
             var included = obj.included;
@@ -45,7 +45,7 @@ window.takeCommand.Module = ( function( takeCommand, $ ) {
         proxyAll: function(){
                 var functions = _utils.makeArray( arguments );
                 for ( var i=0; i < functions.length; i++ ) {
-                    this[functions[i]] = this.proxy( this[functions[i]] );
+                    this[ functions[ i ] ] = this.proxy( this[ functions[ i ] ] );
                 }
             },
         create: function( include, extend ) {

@@ -47,7 +47,7 @@ window.takeCommand.utils = ( function( Array, Object ) {
         this.chkArg.isFunction( func );
         var i = 0, l = collection.length;
         for( ; i < l; i++ ) {
-            if( func( collection[i], i ) === false ) {
+            if( func( collection[ i ], i ) === false ) {
                 break;
             }
         }

@@ -5,7 +5,7 @@ window.takeCommand.CommandGroup = ( function( takeCommand, $ ) {
         testMode: false,
         init: function( key ) {
             this.key = key;
-            takeCommand.groups[key] = this;
+            takeCommand.groups[ key ] = this;
         },
         initialized: function() {
             this.publish( 'initialized' );
@@ -21,7 +21,7 @@ window.takeCommand.CommandGroup = ( function( takeCommand, $ ) {
             }
             
             var command = takeCommand.Command.init( key, options, this );
-            this[key] = command;
+            this[ key ] = command;
             this.publish( key + ':afterRegister', command );
             this.publish( 'afterRegister' );
             return command;
