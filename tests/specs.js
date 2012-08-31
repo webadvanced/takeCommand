@@ -33,9 +33,14 @@ describe('using takeCommand', function() {
 			expect(command.options.dataType).toBe('JSON');
 		});
 
-		it('should create a new property on window.commands for given key', function() {
-			buildCommand('_test_key_');
-			expect(commands._test_key_).not.toBeUndefined();
+		it('should add urlSelector property to options when passed :href', function() {
+			var command = buildCommand('href', ':href');
+			expect(command.options.urlSelector).not.toBeUndefined();
+		});
+
+		it('should set urlSelector property to action when passed :action', function() {
+			var command = buildCommand('action', ':action');
+			expect(command.options.urlSelector).toEqual('action');
 		});
 	});
 
@@ -106,6 +111,7 @@ describe('using takeCommand', function() {
 			$('#theOtherOtherLink').trigger('click');
 			expect(command.options.data).toEqual('theOtherOtherLink');
 		});
+
 		
 		describe('when the el is a form and jQuery validation is included', function() {
 			it('should serialize the form and set it as options.data', function() {
@@ -136,6 +142,37 @@ describe('using takeCommand', function() {
 				var command = buildCommand('someWrapper');
 				command.on('click', '#el', '#wrapper');
 				expect($('#wrapper').data('events').live[0].namespace).toEqual('#el.click');
+			});
+		});
+
+		describe('when url is element attribute', function() {
+			it('should get the value from attribute :href and use it in Ajax request', function() {
+				command = buildCommand('href1', ':href');
+				command.on('click', '.hrefTest');
+				console.log($('.hrefTest'));
+				$($('.hrefTest')[0]).trigger('click');
+				expect(command.options.url).toEqual('/href/test/url1');
+			});
+
+			it('should get the value from attribute :href and use it in Ajax request', function() {
+				command = buildCommand('href2', ':href');
+				command.on('click', '.hrefTest');
+				$($('.hrefTest')[1]).trigger('click');
+				expect(command.options.url).toEqual('/href/test/url2');
+			});
+
+			it('should get the value from attribute :data-url and use it in Ajax request', function() {
+				command = buildCommand('data', ':data-url');
+				command.on('click', '#dataTest');
+				$('#dataTest').trigger('click');
+				expect(command.options.url).toEqual('/data/test/url');
+			});
+
+			it('should get the value from attribute :action and use it in Ajax request', function() {
+				command = buildCommand('action', ':action');
+				command.on('click', '#actionTest');
+				$('#actionTest').trigger('click');
+				expect(command.options.url).toEqual('/action/test/url');
 			});
 		});
 	});

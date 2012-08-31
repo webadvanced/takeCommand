@@ -35,21 +35,18 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
                 } else {
                     this.options.success = this.proxy( function() {
                         var args = _utils.makeArray( arguments );
-                        arguments.length = 0;
                         args.unshift( 'success' );
                         this.publish.apply( this, args );
                         args.length = 0;
                     });
                     this.options.error =  this.proxy( function() {
                         var args = _utils.makeArray( arguments );
-                        arguments.length = 0;
                         args.unshift( 'error' );
                         this.publish.apply( this, args );
                         args.length = 0;
                     });
                     this.options.complete = this.proxy( function() {
                         var args = _utils.makeArray( arguments );
-                        arguments.length = 0;
                         args.unshift( 'always' );
                         this.publish.apply( this, args );
                         args.length = 0;
@@ -98,6 +95,12 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
 
                 data = ( _utils.isFunction( func ) ) ? func.apply( this, arguments ) : data;
                 self.options.ctx = this;
+
+                //check if we need to get the url from the elements attribute
+                if( self.options.urlSelector ) {
+                    self.options.url = $( this ).attr( self.options.urlSelector );
+                }
+
                 self.send( data );
             });
             return this;
@@ -143,18 +146,17 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
                 l++;
             }
             for( ; i < l; i++, n++ ) {
-                tmp = args[i];
+                tmp = args[ i ];
                 if( i === 0 ) {
-                    tmp = this.parent.keyEvent( args[0], this.eventKey() );        
+                    tmp = this.parent.keyEvent( args[ 0 ], this.eventKey() );        
                 }
                 if( i === 1) {
-                    newArgs[n] = this.options.ctx || this;
+                    newArgs[ n ] = this.options.ctx || this;
                     n++;
                 }
-                newArgs[n] = tmp;
+                newArgs[ n ] = tmp;
             }
             this.parent.publish.apply( this.parent, newArgs );
-            arguments.length = 0;
             args.length = 0;
         },
         clear: function( event ) {

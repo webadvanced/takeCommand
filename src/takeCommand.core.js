@@ -23,7 +23,7 @@
             Array.prototype.indexOf = function( value ) {
                 var i = 0;
                 for ( ; i < this.length; i++ ) {
-                    if( this[i] === value ) {
+                    if( this[ i ] === value ) {
                         return i;
                     }
                     return -1;
