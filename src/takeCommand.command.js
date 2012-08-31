@@ -157,7 +157,6 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
                 newArgs[ n ] = tmp;
             }
             this.parent.publish.apply( this.parent, newArgs );
-            arguments.length = 0;
             args.length = 0;
         },
         clear: function( event ) {
