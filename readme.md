@@ -18,10 +18,26 @@ Registering a command is simple. It takes a key (string) and a settings object t
 ```javascript
 var createUserCommand = userCommands.register( 'create', { url: '/users/create' } ); //creating a variable
 userCommands.register( 'update', { url: '/users/update'} );
-//If you only want to define the url or url and ttpe, you can simply pass them as string literals as the second and third argument.
+//If you only want to define the url or url and type, you can simply pass them as string literals as the second and third argument.
 //userCommands.register( 'update', '/users/update' );
 //userCommands.register( 'update', '/users/update', 'POST' );
 ```
+
+If you are also using takeCommand to bind commands to dom elements (https://github.com/webadvanced/takeCommand#using-commands), you can pass the attribute name prefixed with a colon ( : ).
+
+```html
+<a href="/user/delete/5" class="userDelete">delete</a>
+```
+
+```javascript
+//register
+var command = userCommand.register( 'delete', ':href', 'POST' );
+
+//bind
+command.on( 'click', '.userDelete' );
+//This will post the command to '/user/delete/5'
+```
+
 After you have created a command, it will accessible on the `commands` hash.
 
 ##Setting up callbacks for the command##
