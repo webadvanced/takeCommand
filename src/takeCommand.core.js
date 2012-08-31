@@ -2,7 +2,7 @@
     "use strict";
     var addShims,
         takeCommand = {
-            version: '0.9.6',
+            version: '0.9.7',
             init: function() {
               addShims();
             },
