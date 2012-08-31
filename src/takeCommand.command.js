@@ -95,6 +95,12 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
 
                 data = ( _utils.isFunction( func ) ) ? func.apply( this, arguments ) : data;
                 self.options.ctx = this;
+
+                //check if we need to get the url from the elements attribute
+                if( self.options.urlSelector ) {
+                    self.options.url = $( this ).attr( self.options.urlSelector );
+                }
+
                 self.send( data );
             });
             return this;

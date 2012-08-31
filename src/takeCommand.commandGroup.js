@@ -13,7 +13,13 @@ window.takeCommand.CommandGroup = ( function( takeCommand, $ ) {
         register: function( key, options, type ) {
             this.publish( 'beforeRegister' );
             if( typeof options === 'string' ) {
-                options = { url: options };
+                
+                if( options.charAt( 0 ) === ':' ) {
+                    options = { urlSelector: options.substring( 1 ), url: '' };
+                } else {
+                    options = { url: options };    
+                }
+                
             }
 
             if( type ) {

@@ -1,4 +1,4 @@
-window.takeCommand.Module = ( function( takeCommand, $ ) {
+window.takeCommand.Module = ( function( takeCommand ) {
     "use strict";
     var Module, 
         moduleKeywords = ['included', 'extended'],
@@ -74,4 +74,4 @@ window.takeCommand.Module = ( function( takeCommand, $ ) {
     Module.prototype.proxyAll = Module.proxyAll;
     Module.base = Module.create;
     return Module;
-})( window.takeCommand, window.jQuery );
+})( window.takeCommand );
