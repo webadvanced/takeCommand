@@ -1,6 +1,6 @@
 window.takeCommand.Command = ( function( takeCommand, $ ) {
     "use strict";
-    var Command = takeCommand.Module.base(),
+    var Command = takeCommand.Module.base( takeCommand.Events ),
         _defaultOptions = { 
             type: 'GET',  
             dataType: 'JSON', 
@@ -8,7 +8,6 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
         },
         _utils = takeCommand.utils,
         _checkArg = _utils.chkArg;
-    Command.extend( takeCommand.Events );
     Command.include({
         init: function( key, options, group ) {
             _checkArg.isNotFalsy( key, 'command key' );
