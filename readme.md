@@ -12,11 +12,17 @@ The first thing you will need is a `CommandGroup`. `CommandGroup`s are what comm
 var userCommands = takeCommand.CommandGroup.init('userCommands');
 ```
 
+All CommandGroups registered with takeCommand will be stored in a hash located at `takeCommand.groups`.
+
+```javascript
+takeCommand.groups.userCommands
+```
+
 ##Register a command##
 Registering a command is simple. It takes a key (string) and a settings object that must contain a property for `url`. By default, the `type` will be set to `GET` and `dataType` will be set to `JSON`. For more information on available settings, checkout the jQuery docs here: http://api.jquery.com/jQuery.ajax/
 
 ```javascript
-var createUserCommand = userCommands.register( 'create', { url: '/users/create' } ); //creating a variable
+var createUserCommand = takeCommand.groups.userCommands.register( 'create', { url: '/users/create' } ); //creating a variable
 userCommands.register( 'update', { url: '/users/update'} );
 //If you only want to define the url or url and type, you can simply pass them as string literals as the second and third argument.
 //userCommands.register( 'update', '/users/update' );
