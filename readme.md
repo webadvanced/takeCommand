@@ -86,7 +86,7 @@ userCommands.update.on('submit', '#formUpdate', function() {
 });
 //this will use (.delegate) and will call .preventDefault
 ```
-If the selected element is a `form`, takeCommand will automaticly serialize the form and pass it as the settings.data. If you are using jQuery validation, it will also ensure the form is valid before sending the request. So the above code could be simplifed to:
+If the selected element is a `form`, takeCommand will automaticly serialize the form and pass it as the settings.data. If you are using jQuery validation, it will also ensure the form is valid before sending the request. takeCommand will also disable/re-enable and add a class of `processing-btn` to the submit button. So the above code could be simplifed to:
 
 ```javascript
 userCommands.update.on('submit', '#formUpdate');
