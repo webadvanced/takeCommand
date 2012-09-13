@@ -20,23 +20,29 @@
         $(function() {
             var taskCommands = takeCommand.CommandGroup.init('taskCommands');
             var userCommands = takeCommand.CommandGroup.init('userCommands');
+            
+            userCommands.register( 'sendForm', '/', 'POST' ).error( function() {
+                alert('look!');
+            });
+            
+            userCommands.sendForm.on( 'submit', 'form' );
 
-            taskCommands.subscribe( 'beforeRegister', onRegister );
-            taskCommands.subscribe( 'afterRegister', registered );
+            //taskCommands.subscribe( 'beforeRegister', onRegister );
+            //taskCommands.subscribe( 'afterRegister', registered );
             //console.log(taskCommands);
-            var create = taskCommands.register('create', { url: '/tasks/create', type: 'POST' });
-            var update = taskCommands.register('update', '/tasks/update', 'POST').on('click', '#l1');
-            var add = userCommands.register('add', '/user/add').always(function() {console.log('user command add - always - 1')});
+            //var create = taskCommands.register('create', { url: '/tasks/create', type: 'POST' });
+            //var update = taskCommands.register('update', '/tasks/update', 'POST').on('click', '#l1');
+            //var add = userCommands.register('add', '/user/add').always(function() {console.log('user command add - always - 1')});
             //console.log(create);
-            create.always(function() {console.log('create:always new task. -1-');});
-            create.always(function() {console.log('create:always new task. -2-');});
+            ///create.always(function() {console.log('create:always new task. -1-');});
+            //create.always(function() {console.log('create:always new task. -2-');});
             //update.always(function() {console.log('updated:always task. -1-');});
-            update.always(function() {console.log('update:always:called');});
-            update.error(function() {console.log(this);});
-            update.success(function() {console.log(this);});
+            ///update.always(function() {console.log('update:always:called');});
+            //update.error(function() {console.log(this);});
+            //update.success(function() {console.log(this);});
             /*create.publish('success');
             create.success();*/
-            create.send();
+            //create.send();
             //add.send();
             //update.send();
             //create.publish('always');
@@ -47,5 +53,10 @@
     <a id="l1" href="#">Send Request 1</a>
     <br />
     <a id="l2" href="#">Send Request 2</a>
+
+    <form action="" method="post">
+        <input type="text" name="name" />
+        <input type="submit" value ="submit" />
+    </form>
 </body>
 </html>

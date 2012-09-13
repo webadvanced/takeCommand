@@ -1,6 +1,6 @@
 window.takeCommand.Command = ( function( takeCommand, $ ) {
     "use strict";
-    var Command = takeCommand.Module.base( takeCommand.Events ),
+    var Command = takeCommand.Module.base( null, takeCommand.Events ),
         _defaultOptions = { 
             type: 'GET',  
             dataType: 'JSON', 
@@ -8,6 +8,14 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
         },
         _utils = takeCommand.utils,
         _checkArg = _utils.chkArg;
+    Command.extend({
+        clearProcessing: function( $form ) {
+            if( !$form ) {
+                throw 'jQuery Object of form is required';
+            }
+            $form.find( 'input:submit' ).removeClass( 'processing-btn' ).attr( "disabled", false );
+        }
+    });
     Command.include({
         init: function( key, options, group ) {
             _checkArg.isNotFalsy( key, 'command key' );
@@ -71,25 +79,28 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
             }
             scope = scope || 'body';
             $( scope ).delegate( selectors, events, function( evt ) {
+                var $this = $( this );
+                //prevent default event
                 evt.preventDefault();
-
                 //if the selected element is a form, wrap it with jQuery and set the $form variable
-                if( this.action && this.method ) {
-                    $form = $( this );
+                if( $this.is( 'form' ) ) {
+                    $form = $this;
                 }
                 //if the form is using jQuery validation, ensure the form is valid
                 if( $form && $form.valid ) {
                     shouldProcess = $form.valid();
                 }
-
                 //if the form is not valid, we should return
                 if( !shouldProcess ) { 
                     return;
                 }
-    
                 //if the selected element is a form, serialize it and set to the Ajax requests data
                 if( $form ) {
                      data = $form.serialize();
+                     $form.find( 'input:submit' ).attr( "disabled", true ).addClass( 'processing-btn' );
+                     self.always( function() {
+                         Command.clearProcessing( $form );
+                     });
                 }
 
                 data = ( _utils.isFunction( func ) ) ? func.apply( this, arguments ) : data;
