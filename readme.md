@@ -12,16 +12,38 @@ The first thing you will need is a `CommandGroup`. `CommandGroup`s are what comm
 var userCommands = takeCommand.CommandGroup.init('userCommands');
 ```
 
+All CommandGroups registered with takeCommand will be stored in a hash located at `takeCommand.groups`.
+
+```javascript
+takeCommand.groups.userCommands
+```
+
 ##Register a command##
 Registering a command is simple. It takes a key (string) and a settings object that must contain a property for `url`. By default, the `type` will be set to `GET` and `dataType` will be set to `JSON`. For more information on available settings, checkout the jQuery docs here: http://api.jquery.com/jQuery.ajax/
 
 ```javascript
-var createUserCommand = userCommands.register( 'create', { url: '/users/create' } ); //creating a variable
+var createUserCommand = takeCommand.groups.userCommands.register( 'create', { url: '/users/create' } ); //creating a variable
 userCommands.register( 'update', { url: '/users/update'} );
-//If you only want to define the url or url and ttpe, you can simply pass them as string literals as the second and third argument.
+//If you only want to define the url or url and type, you can simply pass them as string literals as the second and third argument.
 //userCommands.register( 'update', '/users/update' );
 //userCommands.register( 'update', '/users/update', 'POST' );
 ```
+
+If you are also using takeCommand to bind commands to dom elements (https://github.com/webadvanced/takeCommand#using-commands), you can pass the attribute name prefixed with a colon ( : ).
+
+```html
+<a href="/user/delete/5" class="userDelete">delete</a>
+```
+
+```javascript
+//register
+var command = userCommand.register( 'delete', ':href', 'POST' );
+
+//bind
+command.on( 'click', '.userDelete' );
+//This will post the command to '/user/delete/5'
+```
+
 After you have created a command, it will accessible on the `commands` hash.
 
 ##Setting up callbacks for the command##
@@ -36,7 +58,7 @@ createUserCommand.success( function() {
 }).error( function() {
     alert('there was a problem');
 }).always(function() {
-    //clear form fields
+    alert('this is always called after success or error is complete!');
 });
 
 //getting the reference to a specific command from the commands hash
