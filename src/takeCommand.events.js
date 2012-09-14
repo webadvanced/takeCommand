@@ -25,7 +25,7 @@ window.takeCommand.Events = ( function( utils ) {
             }
             ctx = ctx || this;
             utils.each( list, function( func, i ) {
-                func.apply( ctx, args );
+                 utils.pushToQueue( ctx, func, args );
             });
             return true;
         },

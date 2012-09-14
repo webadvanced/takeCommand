@@ -110,8 +110,7 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
                 if( self.options.urlSelector ) {
                     self.options.url = $( this ).attr( self.options.urlSelector );
                 }
-
-                self.send( data );
+                _utils.pushToQueue( self, self.send, [ data ], 150 );
             });
             return this;
         },

@@ -21,8 +21,12 @@
             var taskCommands = takeCommand.CommandGroup.init('taskCommands');
             var userCommands = takeCommand.CommandGroup.init('userCommands');
             
-            userCommands.register( 'sendForm', '/', 'POST' ).error( function() {
-                alert('look!');
+            userCommands.register( 'sendForm', '/test.php', 'POST' ).error( function() {
+                // for(var i = 0; i < 50000000; i++) {
+                //     i.toString();
+                // }
+                $('a').text('error!');
+                
             });
             
             userCommands.sendForm.on( 'submit', 'form' );
@@ -48,8 +52,18 @@
             //create.publish('always');
         });
     </script>
+    <style type="text/css">
+        .processing-btn {
+            background: transparent url('http://www.chimply.com/coconut/images/288014') no-repeat right center;
+            padding:0 20px 0 0;
+        }
+        input {
+            padding: 4px;
+        }
+    </style>
 </head>
 <body>
+    <img src="http://www.chimply.com/coconut/images/288014" style="display:none" />
     <a id="l1" href="#">Send Request 1</a>
     <br />
     <a id="l2" href="#">Send Request 2</a>

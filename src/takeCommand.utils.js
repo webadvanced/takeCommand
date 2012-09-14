@@ -41,6 +41,15 @@ window.takeCommand.utils = ( function( Array, Object ) {
         return Array.prototype.slice.call( args, 0 );
     };
 
+    utils.pushToQueue = function( scope, callback, args, delay ) {
+        delay = delay || 25;
+        scope = scope || this;
+        args = args || [];
+        window.setTimeout( function() {
+            callback.apply( scope, args );
+        }, delay );
+    };
+
     utils.each = function( collection, func ) {
         this.chkArg.isNotUndefined( collection );
         this.chkArg.isNotUndefined( func );
