@@ -1,12 +1,13 @@
 window.takeCommand.utils = ( function( Array, Object ) {
     "use strict";
+    
     var utils = {
-        chkArg: {}
-    },
-    _undefined,
-    throwError = function( msg ) {
-        throw msg;
-    };
+            chkArg: { }
+        },
+        _undefined,
+        throwError = function( msg ) {
+            throw msg;
+        };
 
     utils.chkArg.isNotFalsy = function( obj, msg ) {
         if( !obj ) {
@@ -45,6 +46,7 @@ window.takeCommand.utils = ( function( Array, Object ) {
         delay = delay || 50;
         scope = scope || this;
         args = args || [];
+        
         window.setTimeout( function() {
             callback.apply( scope, args );
         }, delay );
@@ -54,7 +56,9 @@ window.takeCommand.utils = ( function( Array, Object ) {
         this.chkArg.isNotUndefined( collection );
         this.chkArg.isNotUndefined( func );
         this.chkArg.isFunction( func );
+        
         var i = 0, l = collection.length;
+        
         for( ; i < l; i++ ) {
             if( func( collection[ i ], i ) === false ) {
                 break;
@@ -67,4 +71,5 @@ window.takeCommand.utils = ( function( Array, Object ) {
     };
 
     return utils;
+    
 })( Array, Object );
