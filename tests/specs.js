@@ -109,40 +109,66 @@ describe('using takeCommand', function() {
 		
 		it('should bind Ajax call to provided el and event', function() {
 			_temp = '';
-			command.on('click', '#theLink');
-			$('#theLink').trigger('click');
-			expect(_temp).toEqual('called by always');
+			runs(function() {
+				command.on('click', '#theLink');
+				$('#theLink').trigger('click');
+			});
+			waits(500);
+			runs(function() {
+				expect(_temp).toEqual('called by always');	
+			});
+			
 		});
 
 		it('should use the hash from callback as options.data', function() {
-			command.on('click', '#theOtherLink', d);
-			$('#theOtherLink').trigger('click');
-			expect(command.options.data).toEqual('from the callback');
+			runs(function() {
+				command.on('click', '#theOtherLink', d);
+				$('#theOtherLink').trigger('click');
+			});
+			waits(500);
+			runs(function() {
+				expect(command.options.data).toEqual('from the callback');
+			});
 		});
 
 		it('should set the scope of the callback to the elemet', function() {
-			command = buildCommand();
-			command.on('click', '#theOtherOtherLink', ds);
-			$('#theOtherOtherLink').trigger('click');
-			expect(command.options.data).toEqual('theOtherOtherLink');
+			runs(function() {
+				command = buildCommand();
+				command.on('click', '#theOtherOtherLink', ds);
+				$('#theOtherOtherLink').trigger('click');
+			});
+			waits(500);
+			runs(function() {
+				expect(command.options.data).toEqual('theOtherOtherLink');
+			});
 		});
 
 		
 		describe('when the el is a form and jQuery validation is included', function() {
 			it('should serialize the form and set it as options.data', function() {
 				var command = buildCommand('noValForm');
-				command.on('submit', '#mockFormNoVal');
-				$('#mockFormNoVal').trigger('submit');
-				expect(command.options.data).toEqual('mockInput=MockText');
+				runs(function() {
+					command.on('submit', '#mockFormNoVal');
+					$('#mockFormNoVal').trigger('submit');
+				});
+				waits(500);
+				runs(function() {
+					expect(command.options.data).toEqual('mockInput=MockText');
+				});
 			});
 
 			it('should not send the Ajax request if the form is not valid', function() {
 				var command = buildCommand('valForm');
-				command.on('submit', '#mockFormVal');
-				command.always(function() {});
-				spyOn(command, 'always');
-				$('#mockFormVal').trigger('submit');
-				expect(command.always).not.toHaveBeenCalled();
+				runs(function() {
+					command.on('submit', '#mockFormVal');
+					command.always(function() {});
+					spyOn(command, 'always');
+					$('#mockFormVal').trigger('submit');
+				});
+				waits(500);
+				runs(function() {
+					expect(command.always).not.toHaveBeenCalled();
+				});
 			});
 		});
 
@@ -199,33 +225,53 @@ describe('using takeCommand', function() {
 		describe('when the call is successfull', function() {
 			it('should publish all success funtions', function() {
 				var callback = jasmine.createSpy();
-				command.success(callback);
-				command.send();
-				expect(callback).toHaveBeenCalled();
+				runs(function() {
+					command.success(callback);
+					command.send();
+				});
+				waits(500);
+				runs(function() {
+					expect(callback).toHaveBeenCalled();
+				});
 			});
 		
 			it('should publish all always funtions', function() {
 				var callback = jasmine.createSpy();
-				command.always(callback);
-				command.send();
-				expect(callback).toHaveBeenCalled();
+				runs(function() {
+					command.always(callback);
+					command.send();
+				});
+				waits(500);
+				runs(function() {
+					expect(callback).toHaveBeenCalled();
+				});
 			});
 		});
 		describe('when the call is not successfull', function() {
 			it('should call the error funtion', function() {
 				command.options.mock.wasSuccess = false;
 				var callback = jasmine.createSpy();
-				command.error(callback);
-				command.send();
-				expect(callback).toHaveBeenCalled();
+				runs(function() {
+					command.error(callback);
+					command.send();
+				});
+				waits(500);
+				runs(function() {
+					expect(callback).toHaveBeenCalled();
+				});
 			});
 		
 			it('should publish all always funtions', function() {
 				command.options.mock.wasSuccess = false;
 				var callback = jasmine.createSpy();
-				command.always(callback);
-				command.send();
-				expect(callback).toHaveBeenCalled();
+				runs(function() {
+					command.always(callback);
+					command.send();
+				});
+				waits(500);
+				runs(function() {
+					expect(callback).toHaveBeenCalled();
+				});
 			});
 		});
 	});
@@ -237,10 +283,15 @@ describe('using takeCommand', function() {
 		it('should not send an Ajax request', function() {
 			var s = jasmine.createSpy(),
 				command = buildCommand( 'testModeTrueNoData' );
-			command.options.mock.wasSuccess = true;
-			command.success( s );
-			command.send();
-			expect( s ).toHaveBeenCalled();
+			runs(function() {
+				command.options.mock.wasSuccess = true;
+				command.success( s );
+				command.send();
+			});
+			waits(500);
+			runs(function() {
+				expect( s ).toHaveBeenCalled();
+			});
 		});
 		
 		it('should pass mock.data to callbacks', function() {
@@ -248,12 +299,16 @@ describe('using takeCommand', function() {
 				a = function(response) { _temp = response.message ;},
 				command = buildCommand( 'testModeTrueWithData' ),
 				_temp;
-			command.options.mock.wasSuccess = true;
-			command.options.mock.responseData = mockData;
-			command.always( a );
-			command.send();
-			
-			expect( _temp ).toEqual( 'this is a always message' );
+			runs(function() {
+				command.options.mock.wasSuccess = true;
+				command.options.mock.responseData = mockData;
+				command.always( a );
+				command.send();
+			});
+			waits(500);
+			runs(function() {
+				expect( _temp ).toEqual( 'this is a always message' );
+			});
 		});
 	});
 });
