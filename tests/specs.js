@@ -49,23 +49,38 @@ describe('using takeCommand', function() {
 		
 		it('should set s as the success function', function() {
 			var functionName;
-			command.success( function() { functionName = 's'; } );
-			command.publish( 'success' );
-			expect( functionName ).toEqual( 's' );
+			runs(function () {
+				command.success( function() { functionName = 's'; } );
+				command.publish( 'success' );
+			});
+			waits(100);
+			runs(function () {
+				expect( functionName ).toEqual( 's' );
+			});
 		});
 
 		it('should set e as the error function', function() {
 			var functionName;
-			command.error( function() { functionName = 'e'; } );
-			command.publish( 'error' );
-			expect( functionName ).toEqual( 'e' );
+			runs(function () {
+				command.error( function() { functionName = 'e'; } );
+				command.publish( 'error' );
+			});
+			waits(100);
+			runs(function () {
+				expect( functionName ).toEqual( 'e' );
+			});
 		});
 
 		it('should set a as the always function', function() {
 			var functionName;
-			command.always( function() { functionName = 'a'; } );
-			command.publish( 'always' );
-			expect( functionName ).toEqual( 'a' );
+			runs(function () {
+				command.always( function() { functionName = 'a'; } );
+				command.publish( 'always' );
+			});
+			waits(100);
+			runs(function () {
+				expect( functionName ).toEqual( 'a' );
+			});
 		});
 	});
 

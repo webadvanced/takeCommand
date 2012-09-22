@@ -42,7 +42,7 @@ window.takeCommand.utils = ( function( Array, Object ) {
     };
 
     utils.pushToQueue = function( scope, callback, args, delay ) {
-        delay = delay || 25;
+        delay = delay || 50;
         scope = scope || this;
         args = args || [];
         window.setTimeout( function() {

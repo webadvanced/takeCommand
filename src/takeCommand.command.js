@@ -68,7 +68,15 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
         execute: function( data ) {
             this.publish( 'send', data );  
         },
+        off: function( events, selectors, scope ) {
+            _utils.chkArg.isNotUndefinedOrEmpty( events, 'an event arg is required.' );
+            _utils.chkArg.isNotUndefinedOrEmpty( selectors, 'a selector arg is required.' );
+            scope = scope || 'body';
+            $( scope ).undelegate( selectors, events );
+        },
         on: function( events, selectors, scope, func ) {
+            _utils.chkArg.isNotUndefinedOrEmpty( events, 'an event arg is required.' );
+            _utils.chkArg.isNotUndefinedOrEmpty( selectors, 'a selector arg is required.' );
             var self = this,
                 data = self.options.data,
                 $form,
@@ -115,36 +123,30 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
             return this;
         },
         before: function( func ) {
-            if( func && _utils.isFunction( func ) ) {
-                this.wrap( func, 'before' );
-            }
+            this.wrap( func, 'before' );
             return this;
         },
         success: function( func ) {
-            if( func && _utils.isFunction( func ) ) {
-                this.wrap( func, 'success' );
-            }
+            this.wrap( func, 'success' );
             return this;
         },
         always: function( func ) {
-            if( func && _utils.isFunction( func ) ) {
-                this.wrap( func, 'always' );
-            }
+            this.wrap( func, 'always' );
             return this;
         },
         error: function( func ) {
-            if( func && _utils.isFunction( func ) ) {
-                this.wrap( func, 'error' );
-            }
+            this.wrap( func, 'error' );
             return this;
         },
         wrap: function( func, eventName ) {
+            _utils.chkArg.isFunction( func );
+            _utils.chkArg.isNotUndefinedOrEmpty( eventName );
             this.subscribe( eventName, func );
         },
         subscribe: function( events, callback ) {
             this.parent.subscribe( events, callback, this.eventKey() );
         },
-        publish: function() {            
+        publish: function() {
             var args = _utils.makeArray( arguments ),
                 i = 0,
                 l = arguments.length,

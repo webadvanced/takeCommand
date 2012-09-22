@@ -17,6 +17,8 @@
             //console.log( 'registered : ' + this.key );
         };
 
+        var count = 0;
+
         $(function() {
             var taskCommands = takeCommand.CommandGroup.init('taskCommands');
             var userCommands = takeCommand.CommandGroup.init('userCommands');
@@ -29,6 +31,13 @@
                 
             });
             
+            userCommands.sendForm.always(function() {
+                console.log(count);
+                if( count >= 3 ) userCommands.sendForm.off( 'submit', 'form' );
+                count++;
+            });
+
+
             userCommands.sendForm.on( 'submit', 'form' );
 
             //taskCommands.subscribe( 'beforeRegister', onRegister );
@@ -51,6 +60,9 @@
             //update.send();
             //create.publish('always');
         });
+        
+        
+
     </script>
     <style type="text/css">
         .processing-btn {
