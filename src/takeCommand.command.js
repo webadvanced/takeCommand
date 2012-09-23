@@ -144,7 +144,7 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
 
                 //check if we need to get the url from the elements attribute
                 if( self.options.urlSelector ) {
-                    self.options.url = $( this ).attr( self.options.urlSelector );
+                    self.options.url = (self.options.urlSelector === 'window')  ? window.location.href : $( this ).attr( self.options.urlSelector );
                 }
                 
                 _utils.pushToQueue( self, self.send, [ data ], 150 );
