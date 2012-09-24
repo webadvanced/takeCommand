@@ -1,4 +1,4 @@
-window.takeCommand.utils = ( function( Array, Object ) {
+window.takeCommand.utils = ( function( Array, Object, window ) {
     "use strict";
     
     var utils = {
@@ -72,4 +72,4 @@ window.takeCommand.utils = ( function( Array, Object ) {
 
     return utils;
     
-})( Array, Object );
+})( Array, Object, window );
