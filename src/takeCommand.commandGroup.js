@@ -1,8 +1,9 @@
 window.takeCommand.CommandGroup = ( function( takeCommand, $ ) {
     "use strict";
 
-    var CommandGroup = takeCommand.Module.base( takeCommand.Events );
-    
+    var CommandGroup = takeCommand.Module.base( takeCommand.Events ),
+        parseUrl;
+
     CommandGroup.include({
         testMode: false,
         
@@ -19,16 +20,15 @@ window.takeCommand.CommandGroup = ( function( takeCommand, $ ) {
             this.publish( 'beforeRegister' );
             
             if( typeof options === 'string' ) {
-                if( options.charAt( 0 ) === ':' ) {
-                    options = { urlSelector: options.substring( 1 ), url: '' };
-                } else {
-                    options = { url: options };    
-                }
+                var url = options;
+                options = { url: url };
             }
 
             if( type ) {
                 options.type = type;
             }
+
+            parseUrl( options );
             
             var command = takeCommand.Command.init( key, options, this );
             
@@ -39,7 +39,14 @@ window.takeCommand.CommandGroup = ( function( takeCommand, $ ) {
             return command;
         }
     });
-    
+
+    parseUrl = function( options ) {
+        if( options.url.charAt( 0 ) === ':' ) {
+            options.urlSelector = options.url.substring( 1 );
+            options.url = '';
+        }
+    };
+
     return CommandGroup;
     
 })( window.takeCommand, window.jQuery );

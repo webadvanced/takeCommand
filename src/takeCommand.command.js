@@ -1,4 +1,4 @@
-window.takeCommand.Command = ( function( takeCommand, $ ) {
+window.takeCommand.Command = ( function( takeCommand, $, window ) {
     "use strict";
 
     var Command = takeCommand.Module.base( null, takeCommand.Events ),
@@ -227,4 +227,4 @@ window.takeCommand.Command = ( function( takeCommand, $ ) {
 
     return Command;
     
-})( window.takeCommand, window.jQuery );
+})( window.takeCommand, window.jQuery, window );

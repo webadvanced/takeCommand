@@ -38,6 +38,11 @@ describe('using takeCommand', function() {
 			expect(command.options.urlSelector).not.toBeUndefined();
 		});
 
+		it('should add window property to options when passed :window', function() {
+			var command = buildCommand('href', {url: ':window'});
+			expect(command.options.urlSelector).toEqual('window');
+		});
+
 		it('should set urlSelector property to action when passed :action', function() {
 			var command = buildCommand('action', ':action');
 			expect(command.options.urlSelector).toEqual('action');
