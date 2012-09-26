@@ -1,15 +1,15 @@
-( function( exports, Object, Array ) {
+;( function( exports, Object, Array ) {
     "use strict";
 
     var addShims,
         takeCommand = {
-            version: '0.9.8',
+            version: '0.9.9',
             init: function() {
               addShims();
             },
             groups: {},
             testMode: false
-        };
+        };?
 
     addShims = function() {
         if( typeof Object.create !== 'function' ) {
