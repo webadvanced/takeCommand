@@ -3,7 +3,7 @@
 
     var addShims,
         takeCommand = {
-            version: '0.9.9',
+            version: '1.0',
             init: function() {
               addShims();
             },
