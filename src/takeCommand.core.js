@@ -9,7 +9,7 @@
             },
             groups: {},
             testMode: false
-        };?
+        };
 
     addShims = function() {
         if( typeof Object.create !== 'function' ) {
