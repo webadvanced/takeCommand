@@ -3,8 +3,9 @@ window.takeCommand.Command = ( function( takeCommand, $, window ) {
 
     var Command = takeCommand.Module.base( null, takeCommand.Events ),
         _defaultOptions = { 
-            type: 'GET',  
-            dataType: 'JSON', 
+            type: 'GET',
+            dataType: 'JSON',
+            contentType: 'application/json; charset=utf-8',
             mock: { wasSuccess: true }
         },
         _utils = takeCommand.utils,

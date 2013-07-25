@@ -52,6 +52,24 @@ window.takeCommand.utils = ( function( Array, Object, window ) {
         }, delay );
     };
 
+    utils.eachAsync = function( collection, func, i ) {
+        this.chkArg.isNotUndefined( collection );
+        this.chkArg.isNotUndefined( func );
+        this.chkArg.isFunction( func );
+        i = i || 0;
+        //do work
+        var result = func( collection[ i ], i );
+        if( result === false ) return;
+        //up by one
+        i++
+        //again
+        if( i < collection.length ) {
+            window.setTimeout(function() {
+                utils.eachAsync( collection, func, i );
+            }, 10);
+        }
+    };
+
     utils.each = function( collection, func ) {
         this.chkArg.isNotUndefined( collection );
         this.chkArg.isNotUndefined( func );

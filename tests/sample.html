@@ -20,10 +20,11 @@
         var count = 0;
 
         $(function() {
+            $count = $('#count');
             var taskCommands = takeCommand.CommandGroup.init('taskCommands');
             var userCommands = takeCommand.CommandGroup.init('userCommands');
             
-            userCommands.register( 'sendForm', '/test.php', 'POST' ).error( function() {
+            userCommands.register( 'sendForm', 'runner.html' ).error( function() {
                 // for(var i = 0; i < 50000000; i++) {
                 //     i.toString();
                 // }
@@ -31,11 +32,60 @@
                 
             });
             
-            userCommands.sendForm.always(function() {
-                console.log(count);
-                if( count >= 3 ) userCommands.sendForm.off( 'submit', 'form' );
-                count++;
-            });
+            var addCount = function( i ) {
+                $('<li />').text( i ).appendTo($count);
+            };
+
+            userCommands.sendForm
+                        .always(function() {
+                            addCount(1);
+                        }).always(function() {
+                            addCount(2);
+                        }).always(function() {
+                            addCount(3);
+                        }).always(function() {
+                            addCount(4);
+                        }).always(function() {
+                            addCount(5);
+                        }).always(function() {
+                            addCount(6);
+                        }).always(function() {
+                            addCount(7);
+                        }).always(function() {
+                            addCount(8);
+                        }).always(function() {
+                            addCount(9);
+                        }).always(function() {
+                            addCount(10);
+                        }).always(function() {
+                            addCount(11);
+                        }).always(function() {
+                            addCount(12);
+                        }).always(function() {
+                            addCount(13);
+                        }).always(function() {
+                            addCount(14);
+                        }).always(function() {
+                            addCount(15);
+                        }).always(function() {
+                            addCount(16);
+                        }).always(function() {
+                            addCount(17);
+                        }).always(function() {
+                            addCount(18);
+                        }).always(function() {
+                            addCount(19);
+                        }).always(function() {
+                            addCount(20);
+                        }).always(function() {
+                            addCount(21);
+                        }).always(function() {
+                            addCount(22);
+                        }).always(function() {
+                            addCount(23);
+                        }).always(function() {
+                            addCount(24);
+                        });
 
 
             userCommands.sendForm.on( 'submit', 'form' );
@@ -84,5 +134,6 @@
         <input type="text" name="name" />
         <input type="submit" value ="submit" />
     </form>
+    <ul id="count"></ul>
 </body>
 </html>
